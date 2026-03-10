@@ -11,6 +11,10 @@
 % \renewcommand{\baselinestretch}{0.8}
 \fi
 
+\usepackage{fontspec}
+% \setmainfont{Noto Sans}
+\newfontfamily\secondfont{Noto Sans}
+
 %\usepackage{newtxtext,newtxmath}	% use Times Roman font
 %\usepackage{newtxtext}
 %\renewcommand{\familydefault}{\sfdefault}
@@ -91,6 +95,8 @@
 \usepackage{verbatim} % comments
 \usepackage[skins,theorems]{tcolorbox}
 
+\usepackage{parallel}	% bilingual tex
+
 \usepackage{ulem}
 \makeatletter
 \newcommand{\cthickuline}[3][0.5pt]{%
@@ -121,6 +127,8 @@
 \makeatletter
 \renewcommand{\boxed}[1]{\fbox{\m@th$\displaystyle\scalebox{0.9}{#1}$} \,}
 \makeatother
+
+\newcommand{\egg}[1]{\secondfont{\footnotesize {\color{black!30} \textit{#1}} \normalsize}\normalfont}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -200,12 +208,24 @@
 
 \begin{frame}
 	\frametitle{The AGI ethics problem is even harder than AGI}
+
 	\begin{itemize}
-		\item American hegemony 令 冇啖好食 $\rightarrow$ 務必消除種族歧視，乃大勢之所趨
-		\item Curse of backwardness: 中國無法改革之迷思 $\rightarrow$ 落後的解決方案
-		\item Metamorphosis: AGI 勢將導致人類物種之蛻變，所以不可懼怕鉅變
-		\item 除了趨向絕對真理，別無其他的 anchor
-		\item 嘗試以香港爲基地 建立 中立 AGI server
+		\item 其實關於今次這個項目申請的最大問題是：好多人認爲香港搞 AGI 冇出路，因爲這領域被美國壟斷
+		\item 很多香港人亦自我認同某特定的角色，就是吃美國吃剩的「麪包碎」
+		\item 當然，知道一個問題的存在，並不表示一定能改變它
+		\item 是以很多香港人漸漸潛移默化而形成了種族自卑（很多時不自覺的）
+		\item 問題關鍵是：究竟有沒有出路？路徑是否存在？
+		\item 而這牽涉的問題是：中國是否必然趨向落後？
+		\item 落後的定義是：民衆的思想與「真實」之間的距離。 落後國家的特點是人民思想迷信，浪費時間在低效率的消耗上
+		\item 古代文明到了今天衰落，這似乎不是生物界或 DNA 的現象，而是文化上的現象，是存在於人們的思想裏；能改變思想則不會落後
+
+
+		% \item 美國霸權 令 香港冇啖好食 $\rightarrow$ 務必消除種族歧視，乃大勢之所趨 \\
+		% \egg{Under the American hegemony of high tech, }
+		% \item Curse of backwardness: 中國無法改革之迷思 $\rightarrow$ 落後的解決方案
+		% \item Metamorphosis: AGI 勢將導致人類物種之蛻變，所以不可懼怕鉅變
+		% \item 除了趨向絕對真理，別無其他的 anchor
+		% \item 嘗試以香港爲基地 建立 中立 AGI server
 	\end{itemize}
 \end{frame}
 
