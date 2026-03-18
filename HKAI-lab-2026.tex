@@ -11,13 +11,9 @@
 % \renewcommand{\baselinestretch}{0.8}
 \fi
 
-<<<<<<< HEAD
 \usepackage{fontspec}
 % \setmainfont{Noto Sans}
 \newfontfamily\secondfont{Noto Sans}
-=======
-\newcommand{\verse}[2]{#1\\ {\color{blue!70}#2}}
->>>>>>> 6c6d72e (change English font)
 
 %\usepackage{newtxtext,newtxmath}	% use Times Roman font
 %\usepackage{newtxtext}
@@ -132,7 +128,9 @@
 \renewcommand{\boxed}[1]{\fbox{\m@th$\displaystyle\scalebox{0.9}{#1}$} \,}
 \makeatother
 
-\newcommand{\egg}[1]{\secondfont{\footnotesize {\color{black!30} \textit{#1}} \normalsize}\normalfont}
+\newcommand{\egg}[1]{\secondfont{\footnotesize {\color{black!40} \textit{#1}} \normalsize}\normalfont}
+
+% \newcommand{\verse}[2]{#1\\ {\color{blue!70}#2}}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -194,6 +192,9 @@
 	\begin{itemize}
 		\item Differentiable.
 		\item Cylindrification factor.
+			\begin{equation}
+				\vcenter{\hbox{\includegraphics[scale=0.5]{cylindrify-example.png}}}
+			\end{equation}
 		\item I was in quite a celebratory mood, as you can see.
 		\item The source code is open under Creative Common license, so you can ask Copilot whether our project has genuine original value
 	\end{itemize}
@@ -230,6 +231,16 @@
 		% \item Metamorphosis: AGI 勢將導致人類物種之蛻變，所以不可懼怕鉅變
 		% \item 除了趨向絕對真理，別無其他的 anchor
 		% \item 嘗試以香港爲基地 建立 中立 AGI server
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Testing}
+
+	\begin{itemize}
+		\item 美國霸權 令 香港冇啖好食 $\rightarrow$ 務必消除種族歧視，乃大勢之所趨 \\
+		\egg{Under the American hegemony of high tech, }
+		\item Curse of backwardness: 中國無法改革之迷思 $\rightarrow$ 落後的解決方案
 	\end{itemize}
 \end{frame}
 
