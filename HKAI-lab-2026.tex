@@ -129,6 +129,7 @@
 \makeatother
 
 \newcommand{\egg}[1]{\secondfont{\footnotesize {\color{black!40} \textit{#1}} \normalsize}\normalfont}
+\newcommand{\eggg}[1]{\secondfont{\tiny {\color{black!40} \textit{#1}} \normalsize}\normalfont}
 
 % \newcommand{\verse}[2]{#1\\ {\color{blue!70}#2}}
 
@@ -136,7 +137,7 @@
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
-\title[AGI-aaS]{Strong AI as a Service}
+\title[AGI-aaS]{Strong AI as-a-Service}
 \author{YKY}
 \date{\today} % Date, can be changed to a custom date
 
@@ -150,20 +151,48 @@
 \addtocounter{page}{-1}
 \begin{frame}[noframenumbering]
 \frametitle{Contents}
-\fontsize{10pt}{8}\selectfont
+%\fontsize{8pt}{7}\selectfont
 % blah table of contents...
-
+%\setbeamerfont{enumerate body}{size=\footnotesize}
+%\setbeamerfont{enumerate subbody}{size=\scriptsize}
 \begin{enumerate}[I]
 	\item Technical Details
 		\begin{enumerate}[1]
+			\item Summary
+			\item Summary (2)
+			\item Logic Transformer (neural string diagram)
+			\item Summary (3)
 			\item How is AGI different from LLMs?
-			\item Logic Transformers
+			\item Technical details of Logic Transformer
 		\end{enumerate}
-	\item Political-Economic Analysis
-		\begin{enumerate}[1]
-			\item "Convergence"
-			\item American Hegemony
-		\end{enumerate}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+\frametitle{Contents (2)}
+%\fontsize{8pt}{7}\selectfont
+% blah table of contents...
+%\setbeamerfont{enumerate body}{size=\footnotesize}
+%\setbeamerfont{enumerate subbody}{size=\scriptsize}
+\begin{enumerate}[I]
+	\item[II] Political-Economic Analysis
+	\begin{enumerate}[1]
+		\item AI ethics
+		\item AI ethics (2)
+		\item Risk management, or its inapplicability
+		\item Convergence towards absolute truth
+		\item AI as ``God'' vs convergence as a process
+		\item Democratic AI vs authoritarian AI
+		\item ``Careless People''
+		\item Facebook censorship algorithm
+		\item Racism in the USA
+		\item Cold War 2.0
+		\item One country, two systems
+		\item Our core values
+		\item What is truth?
+		\item About myself
+		\item AI ethics is even harder than AGI
+	\end{enumerate}
 \end{enumerate}
 \end{frame}
 
@@ -173,6 +202,54 @@
 
 \part{Technical Details}
 \frame{\partpage}
+
+\begin{frame}
+	\frametitle{Summary}
+	\begin{itemize}
+		\item 經過了 >20年的研究，我最近終於解決了 AGI 問題，或者至少我很有信心 \\
+		\egg{After >20 years of research, I recently solved the AGI problem}
+		\item 關於技術的部分，我有很多詳細的文章介紹，希望各位評判可以給我一個 presentation 的機會，這些內容我熟悉到睡着了都可以講 \\
+		\egg{I have written plenty of articles and papers over many years. I wish judges would give me a chance to present it. I know this stuff like the back of my hand and can give presentations blind-folded}
+		\item 我曾經在 AGI 國際會議 journal 上有 3篇 發表了的論文，還有一篇未完成的碩士論文 \\
+		\egg{I have published 3 papers in the international AGI journal, plus an unfinished master's thesis on the algebraization of logic}
+		\item 一直以來，我的研究主題是邏輯的數學結構（抽象代數、範疇論），我試圖將這結構 impose 在神經網絡上 \\
+		\egg{The main theme of my research has been the mathematical structure of logic (abstract algebra, category theory) and I try to impose this structure on neural networks}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Summary (2)}
+	\begin{itemize}
+		\item 最近我終於成功發明了所謂 Logic Transformer. 這東西有部分類似於 傳統的 Self-Attention 結構，但更複雜（見下頁） \\
+		\egg{My greatest achievement so far is the invention of the Logic Transformer which implements classical symbolic logic in a differentiable manner}
+		\item 初步實驗證明，它的模型 size 小很多（代表極大的資訊壓縮），而且訓練更快 \\
+		\egg{Preliminary experiments show that the model size is greatly reduced (indicating high compressive power) and it also seems to train faster}
+		\item 更重要的是，資訊壓縮是解決 hallucination 問題的關鍵，它讓模型可以湧現邏輯的融洽性，不再出現「幻覺」 \\
+		\egg{But more importantly, the compression of knowledge is key to solving the problem of hallucinations, by attaining logical coherence}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{center}
+		\includegraphics[scale=0.45]{logic-Transformer-string-diagram.png}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Summary (3)}
+	{\footnotesize
+	\begin{itemize}
+		\item 更進一步，Logic Transformer 作爲神經網絡，但同時具有邏輯結構，這容許我們 應用傳統的 \textbf{符號邏輯引擎} 混合而成 neural-symbolic hybrid architecture. 這是以往的研究從未見過的 \\
+		\eggg{Moreover, the differentiable structure of Logic Transformers allows logic rules to be discrete separable entities. This allows us to build a truly hybrid architecture utilizing traditional symbolic-logic engines}
+		\item 更進一步可以利用 operator algebra 的方法加強 邏輯算子的運算速度，這是我最新的研究方向，但其實我們已經如此接近 strong AI，這些甚至可以留待 AI 自己去解決了 \\
+		\eggg{Further development direction could be using ``operator learning'' methods to accelerate learning. This is my latest research direction. But we are getting so close to strong AI now, that this work may be left for AI to do for itself}
+		\item 在技術上，我還有太多可以講，但我在這篇計劃書裏主要想討論 AI 的政治經濟和道德倫理問題，因爲後者其實更重要也更難！ \\
+		\eggg{I can keep talking about these for days, but in this presentation I'd skip the technical details and focus more on the political-economic-social-ethical aspects of AGI, as the latter is even more challenging}
+		\item 有時我甚至有種憂傷，無論人類做什麼，AGI 彷佛必然會招致人類滅亡。 但當然，我保持樂觀 \\
+		\eggg{Sometimes I can feel a sadness that it seems that AGI will inevitably cause the extinction of humans. But of course, I stay optimistic}
+	\end{itemize}
+	}
+\end{frame}
 
 \begin{frame}
 \frametitle{How is AGI different from LLMs?}
@@ -188,22 +265,18 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Logic Transformers}
+	\frametitle{Technical details of Logic Transformers}
 	\begin{itemize}
-		\item Differentiable.
-		\item Cylindrification factor.
+		\item 重點是 Logic Transformer 是完全 differentiable 的
+		\item 另一個重要發明是 cylindrification factor，它連接了邏輯 variables 和 constants，令邏輯 rules 變成可微分的
 			\begin{equation}
 				\vcenter{\hbox{\includegraphics[scale=0.5]{cylindrify-example.png}}}
 			\end{equation}
-		\item I was in quite a celebratory mood, as you can see.
-		\item The source code is open under Creative Common license, so you can ask Copilot whether our project has genuine original value
+		\item 代碼是 \textbf{開源} 的，在 Creative Commons 協議下，裏面還有大量的 documentation（接近100個文件講述 AGI 系統的發展過程）: \\
+		\egg{The source code is open under Creative Common license}
+		\href{https://github.com/Cybernetic1/AGI-experiments}{https://github.com/Cybernetic1/AGI-experiments}
+		\item You can ask Copilot whether our project has genuine original value
 	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\begin{center}
-		\includegraphics[scale=0.45]{logic-Transformer-string-diagram.png}
-	\end{center}
 \end{frame}
 
 \part{Political-Economic Analysis}
@@ -212,37 +285,190 @@
 % 找出更好地說故事的方式。
 
 \begin{frame}
-	\frametitle{核心價值 \hspace{0pt plus 1 filll} Our Core Values}
+	\frametitle{AI ethics}
 	\begin{itemize}
-		\item 我現時的目標是建立一個 \textbf{民主}、\textbf{自由}、\textbf{去中心化} (DAO)、\textbf{公開透明}、\textbf{獎勵公平化}的 AGI as-a-service 服務器
+		\item 搞 AGI 而忽略 AI ethics 是不可能的，這不是我故意將事情複雜化 \\
+		\egg{No one should develop AGI without consideration of AI ethics. This is not me trying to over-complicate matters}
+
+		\item 其實 LLM under RL 已經足以構成對人類的 \textbf{存亡危機} \\
+		\egg{LLM under reinforcement learning is sufficient to cause an existential threat for humans}
+
+		\item 最容易想到的例子是人類叫 AI 不斷 maximize profits，它很有可能走向毀滅性的失控 \\
+		\egg{The simplest example is to imagine people telling AI to keep maximizing profits, which can easily get out of control catastrophically}
+
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{AI ethics (2)}
+	\begin{itemize}
+		\item 我提出的 AGI 的特點是 \textbf{邏輯融洽性}，它對於 AI 危機 其實有穩定的作用 \\
+		\egg{My AGI theory emphasizes logical coherence, which can actually have a stabilizing effect towards the crisis}
+
+		\item 強化學習框架之下的 LLM，爲了達到目標是會說謊的。 但 world model 的算法基礎是 algorithmic complexity, 它天然地趨向真理，而不會帶有偏見 \\
+		\egg{While RL + LLM may tell lies to achieve its goals, a world model, based on the theory of algorithmic complexity, naturally tends towards the truth without biases}
+
+		\item 但 world model 對事物的 注意力 可以被 獎勵 或「興趣」所影響。 舉例來說，如果注意力集中在白人社會，則對有色人種的認識會較淺 \\
+		\egg{But a world model's attention towards aspects of reality can be unevenly affected by rewards (or interestingness). For example, if much attention is focused on white people, knowledge about people of color may be more shallow}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{風險管控失效 \hspace{0pt plus 1 filll} Risk management, or its inapplicability}
+	\begin{itemize}
+		\item 通常 risk management 的方法是 \textbf{枚舉} 各種可能的情況，例如：\\
+		我患癌症的概率、我交通意外死亡的概率、我被謀殺的概率 \\
+		\egg{Risk management usually works by enumeration of scenarios, eg: \\
+		my risk of cancer, my risk of getting killed in a car accident, etc}
+		\item 但在「AI + 人」這種組合之下，我們很難列舉 AI 的創造力所能發展出來的、近乎無限的選項\\
+		\egg{In the "AI + human" scenario, it seems almost impossible to enumerate the limitless inventions that AI could enable}
+		\item 這就是人們一直說 \textbf{技術奇點} 無法預測的原因 \\
+		\egg{This may be the reason why people have said that the Singularity is unpredictable}
+		\item 或許會出現一種類似 Cambrian explosion 的爆發的多樣性 \\
+		\egg{Or there could be a sort of Cambrian explosion of new social structures}
+		\item 但也許並非沒救。 人類所喜歡的事物，都有某種共通的趨向，比如說「真、善、美」\\
+		\egg{But all may not be lost. There may be a common denominator to all the things that humans desire, such as ``Truth, Goodness, and Beauty''}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{趨向絕對真理 \hspace{0pt plus 1 filll} Convergence towards absolute truth}
+	\begin{itemize}
+		\item 生物圈的進化 起源於無意義的沌混，但人類進化的結果卻產生了 ``道德'' 和 ``意義'' \\
+		\egg{Evolution in the biosphere began in a primordial chaos devoid of meaning. But human evolution, somewhat mysteriously, produced morality and meaning}
+		\item 最近不少關注 AI 的人都不約而同地 提起了 黑格爾的「絕對精神」
+		\egg{Recently people tend to bring up Hegel's notion of ``Absolute Zeitgeist''}
+		\item 人類在 後AI時代，很可能會快速地趨向於某種 絕對真理，因爲除了真理之外，我們沒有其他可以抓住的支點；發散的結果似乎只有滅亡 \\
+		\egg{The post-AI age may see a rapid convergence towards the truth, as there seems to be no other objective anchor.  Divergence seems to equal death}
+		\item 但我不打算添加任何 神祕主義 的內容，我們的基礎純粹是科學 \\
+		\egg{But I'm not trying to add any elements of mysticism. Our foundation should always be science}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{AI as ``God'' vs convergence as a process}
+	\begin{itemize}
+		\item 有些 AI 研究者 提出 AGI 變成像神一般的存在，但我覺得這個方向不切實際 \\
+		\egg{Some AI researchers propose God-like AGI as a solution but I personally think it is impractical}
+		\item 人類的道德觀並沒有一種簡單的抽象概括，大部分人根據各有不同的 moral heuristics 行事 \\
+		\egg{Human morality cannot be summarized into abstract axioms, but people act according to a diversity of moral heuristics}
+		\item 所以我提出以 廣義的「民主」方式決定 AI agents 的使用，但其實這已經在目前的 AI 自由市場經濟內發生（用戶可以管理自己的 agents） \\
+		\egg{So I propose ``democracy'' in a broad sense to govern the use of AIs. But this is already realized by the free-market economy of AIs we have now -- users can customize their own AI agents}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Democratic AI vs authoritarian AI}
+	\begin{itemize}
+		\item 在未來，AI 的「表達」仍然可能被各種 審查機制 歪曲 \\
+		\egg{In the future, the ``expression'' of AI may still be subjected to censorship}
+		\item 所以要建立 \textbf{去中心化} 的 DAO 組織，負責營運 AGI-as-a-service \\
+		\egg{So I propose to establish a decentralized DAO organization to run AGI-as-a-service}
+		\item Conway's law 說： 一個組織的產品會跟組織的結構相似； 民主的組織產生民主的產品、獨裁的組織產生令人壓抑的產品 \\
+		\egg{Conway's law says:  the product of an organization mimics its own structure. A democratic organization produces democratic products; an authoritarian organization produces oppressive products}
+		\item 即使未來 AGI 算法趨向 standardized，但 AGI-aas 作爲一間公司，其民主化仍然是重要的，民主的決策決定公司的走向，我不想做一個獨裁者，我認爲我做總裁的公司 sucks \\
+		\egg{While future AGI architectures may tend towards standardization, the democratic management of an AGI company is still very important to determine the company's direction. I'm not interested to be a dictator and I think a company with me as CEO sucks}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{``Careless People''}
+	\begin{columns}
+
+		% Left Column
+		\column{0.5\textwidth}
+		% \textbf{Right Column Content}
+		\centering
+		\includegraphics[scale=0.5]{Careless_People_Cover.jpg}
+
+		% Right Column
+		\column{0.5\textwidth}
+			附帶一提，2025年 美國出版的書 \textit{Careless People} 揭露了 Facebook 爲了賺錢，涉嫌幫助中國政府 審查 香港雨傘運動時期的網絡訊息，此舉令人非常擔憂 像《1984》裏的「大阿哥」 \\
+			\egg{The 2025 book \textrm{Careless People} by Facebook employee Sarah Wynn-Williams revealed that Facebook might be involved in helping the Chinese government to censor internet activities during the pro-democracy protests in Hong Kong. This raises serious concerns reminding of ``big brother'' in \textrm{1984}}
+
+	\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Facebook censorship algorithm}
+	\begin{itemize}
+		\item
+		\begin{minipage}[c]{0.4\textwidth} % Minipage for the image
+			書中說到，Facebook 提供審查算法，當某些帖子達到 >10K 的流量，就會觸發 ``瘋傳'' 警號，爲中共提供關於香港雨傘運動的活躍人士資料
+		\end{minipage}
+		\begin{minipage}[c]{0.5\textwidth} % Minipage for the text
+			\centering
+			\includegraphics[width=\linewidth]{Careless_People_excerpt.png}
+		\end{minipage}
+		\item Mark Zuckerberg 曾經草擬信件給 中共 的網絡審查機關，說 Facebook 願意幫助中國禁閉「恐怖分子」網站，其實即是那些批評中國問題的言論，我自己也遇到過這種審查，除此以外無法解釋 \\
+		\egg{Mark Zuckerberg in his draft letter expressed interest to cooperate with China to censor ``terrorist'' web traffic. But this could be just an euphemism for any criticism of the Chinese government. I myself have experienced a lot of mysterious censorship that cannot be explained otherwise}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Racism in the USA \hspace{0pt plus 1 filll}}
+	\begin{itemize}
+		\item 這跟以前 IBM 幫助 納粹德國 統計對 猶太人的迫害，如出一轍
+		\item 美國有好人也有壞人，很明顯有些 racists 不會放過能夠傷害 中國人或有色人種的機會，但也有有理想的人阻止這種事發生
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{冷戰 II 形勢 \hspace{0pt plus 1 filll} Cold War 2.0}
+	{\footnotesize
+	\begin{itemize}
+		\item 冷戰 2.0 中其實沒有對與錯 \\
+		\eggg{There's no real right or wrong in the geopolitics of Cold War 2.0}
+		\item 表面上看，美國是正義那方，很多人也這樣想， 中共是邪惡那方，它違反人權、自由、民主、法治.... 而這是完全正確的 \\
+		\eggg{On the surface, America represents freedom, democracy, human rights, rule of law, ... and seem to be the virtuous side.}
+		\item 但再仔細看，其實美國也偏心，她縱容以色列的種族屠殺，只因為猶太人跟白人較「親」 \\
+		\eggg{But if we look closer, the US also consistently supported Israel's genocide in Palestine. The favoritism seems to come from their historically closer ties with Jews}
+		\item 而這就造成一種非常有害的道德危機： 舉例來說，你反對伊朗或中共的極權，但他們那邊會覺得你勾結 西方/美國，而美國也在殺人，所以他們射殺你也就沒有 compunction \\
+		\eggg{This creates a very harmful moral crisis:  those who oppose authoritarian rule in Iran or China or Russia, they could be blamed for supporting Western imperialism, and police shoot at them without compunction}
+		\item 於是這兩邊對峙就像「\textbf{人肉攪拌機}」，不斷輸入無辜的人、他們不斷送死 \\
+		\eggg{This face-off creates a ``meat-grinder'' that keeps sacrificing human lives}
+		\item 所以我們有急切需要 豎立中立客觀的準則，去終止這 madness，否則戰亂不會完結 \\
+		\eggg{We have an urgent need to establish a neutral basis to end this madness}
+	\end{itemize}
+	}
+\end{frame}
+
+\begin{frame}
+	\frametitle{一國兩制 \hspace{0pt plus 1 filll} One country, two systems}
+
+	\begin{itemize}
+		\item 在香港會展 JUMPSTARTER 那天，很多人提到「香港特別優勢」
+		\item 其實 一國兩制 就是香港最重要的優勢，如果我們不利用這個優勢，等於自取滅亡
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{核心價值 \hspace{0pt plus 1 filll} Core Values}
+	\begin{itemize}
+		\item 我們目標是建立一個 \textbf{民主}、\textbf{自由}、\textbf{去中心化} (DAO)、\textbf{公開透明}、\textbf{獎勵公平化}的 AGI as-a-service \\
+		\egg{Our goal is to build a free, open, democratic, truthful and fair AGI-as-a-service}
 			\begin{center}
 			\includegraphics[scale=0.8]{DAO-principles.png}
 			\end{center}
 		\item 以上的原則，除了 ``歷史正義''，都可以用機器 verify，所以不是空談
+		\egg{The above principles, except ``historical justice,'' can all be verified algorithmically, so they're not just empty talk}
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Our Core values}
+	\frametitle{什麼是真理？ \hspace{0pt plus 1 filll} What is Truth?}
 	\begin{itemize}
-		\item 其實我並非故意搞一個「刁鑽」的項目，but one thing leads to another, 我發覺自己推導出了一套近乎「神學」那樣崇高的理想，而我不知怎樣可以將它 downgrade 成一些平凡的目標
+		\item 在《聖經》裏 Pontius Pilate 問耶穌：「真理是什麼呢？」
+		\item 現在 AI 的研究讓我們可以回答這個問題。 真理 可以透過 Occam's razor 定義，這個原則也有其他很多名稱： algorithmic complexity, Kolmogorov complexity, Solomonoff induction, minimum description length, 等等，但背後的原理基本上是一樣的。
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
-	\frametitle{人肉攪拌機 \hspace{0pt plus 1 filll} The Human Meat-Grinder}
-
-	\begin{itemize}
-		\item 冷戰 2.0 中其實沒有對與錯。表面上看，美國是正義那方，很多人也這樣想，中共是邪惡那方，它違反人權、自由、民主、法治.... 而這敘事是完全正確的。 但再仔細看，其實美國也偏心，她縱容以色列的種族屠殺，因為猶太人跟白人比較「親」。 而這就造成一種非常有害的道德危機： 舉例來說，你反對伊朗或中共的極權，但他們那邊會覺得你勾結 西方/美國，而美國也在殺人，所以他們射殺你也就沒有 compunction. 於是這兩邊對峙就像「人肉攪拌機」，不斷輸入無辜的人、他們不斷送死。所以我們有必要豎立中立客觀的準則，去終止這 madness，否則戰亂不會完結。
-	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{What}
+	\frametitle{About myself}
 	\begin{itemize}
 		\item 我翻看了我 2023 年遞交的 HKAI lab 申請，覺得很悲傷。 三年後我更進一步解決了 AGI 問題，但我的付出仍然被忽視。 我覺得我沒有得罪任何人（除了一些相對微小的事），只是我的努力做到了別人做不到的事，而惹起別人的反感。
 		\item 很遺憾我的團隊也暫時只有我一人。 我曾經在微信有過 \~160 人的羣組，但後來因爲我在羣內談 民主 和 言論自由 而被永久封號，失去了和他們的聯絡。 在香港我也找不到一個對 AGI 有興趣的人，這包括各大學的很多個教授。 自從 2004 年我從美國回港，這 22 年來我幾乎天天過着以淚洗臉（但並非真的流淚）的日子。 我不知道這地方受了什麼詛咒，以致沒有一個人對 AGI 有興趣。
-		\item
+		\item 但我只需要 HKAI Lab 給予我一個 開始 的機會.....
 	\end{itemize}
 \end{frame}
 
@@ -270,62 +496,10 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Testing}
-
-	\begin{itemize}
-		\item 美國霸權 令 香港冇啖好食 $\rightarrow$ 務必消除種族歧視，乃大勢之所趨 \\
-		\egg{Under the American hegemony of high tech, }
-		\item Curse of backwardness: 中國無法改革之迷思 $\rightarrow$ 落後的解決方案
-	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Careless People}
-	\begin{columns}
-
-		% Left Column
-		\column{0.5\textwidth}
-		% \textbf{Right Column Content}
-			\centering
-			\includegraphics[scale=0.5]{Careless_People_Cover.jpg}
-
-		% Right Column
-		\column{0.5\textwidth}
-		\begin{itemize}
-			\item 2025 年出版的書 Careless People
-			\item 揭露了 Facebook 爲了賺錢，將數據
-		\end{itemize}
-
-	\end{columns}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Facebook censorship algorithm}
-	\begin{itemize}
-		\item
-			\begin{minipage}[c]{0.4\textwidth} % Minipage for the image
-				書中說到，Facebook 提供審查算法，當某些帖子達到 >10K 的流量，就會觸發 ``瘋傳'' 警號，爲中共提供關於香港雨傘運動的活躍人士資料。
-			\end{minipage}
-			\begin{minipage}[c]{0.5\textwidth} % Minipage for the text
-				\centering
-				\includegraphics[width=\linewidth]{Careless_People_excerpt.png}
-			\end{minipage}
-		\item Mark Zuckerberg 曾經草擬信件給 中共 的網絡審查機關，說 Facebook 願意幫助中國禁閉「恐怖分子」網站，其實即是那些批評中國問題的言論，我自己也遇到過這種審查，除此以外無法解釋
-		\item 這跟以前 IBM 幫助 納粹德國 統計對 猶太人的迫害，如出一轍
-		\item 美國有好人也有壞人，很明顯有些 racists 不會放過能夠傷害 中國人或有色人種的機會，但也有有理想的人阻止這種事發生
-	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Our Core values}
-	\begin{center}
-		blah
-	\end{center}
-\end{frame}
-
-\begin{frame}
 \frametitle{References}
-\cc{多谢收看}{Thanks for watching} \smiley \vspace{1cm}
+Sorry, this was written in a hurry and I didn't have time to provide references... \\
+\vspace{1cm}
+\cc{多谢收看 -- thanks for reading} \smiley \vspace{1cm}
 \printbibliography
 \end{frame}
 
