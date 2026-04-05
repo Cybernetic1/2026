@@ -79,9 +79,11 @@
 %\node[draw, rectangle, red] at ([shift={(8cm,-2cm)}]current page.north west) {\huge\textbf{NOTE: unfinished draft}};
 %\end{tikzpicture}
 
+RL architecture, classical logic engines，Logic Transformer, various issues: Davidsonian grammar, reflection, reification, HOL, Horn, vectorization, etc.
+
 \section*{Part I. \ LLM + RL architectures}
 
-首先讲下 classical logic，
+
 
 For \textbf{string diagrams} \cite{Hinze2023} there are usually two conventions: 1) data are nodes, functions are edges: \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt] (math) {$x$}; $\stackrel{f}{\longrightarrow}$ \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt] (math) {$y$};  or alternatively 2) functions are nodes, data are edges: $\stackrel{x}{\longrightarrow}$ \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt,fill=gray!20] (math) {$f$}; $\stackrel{y}{\longrightarrow}$.  In the following, I make explicit nodes for both functions (grey) and data (white), whereas edges merely represent linkages.
 
