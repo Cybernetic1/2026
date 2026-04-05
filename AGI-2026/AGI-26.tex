@@ -3,6 +3,9 @@
 \usepackage[backend=biber]{biblatex}
 \bibliography{AGI-book}
 
+\usepackage[CJKspace]{xeCJK}
+\setCJKmainfont[Path={/usr/share/fonts/truetype/Alibaba PuHuiTi/}, BoldFont=Alibaba_PuHuiTi_Regular.ttf, ItalicFont=ukai.ttc]{Alibaba_PuHuiTi_Light.ttf}
+
 \usepackage[T1]{fontenc}
 % T1 fonts will be used to generate the final print and online PDFs,
 % so please use T1 fonts in your manuscript whenever possible.
@@ -47,7 +50,7 @@
 
 \begin{document}
 %
-\title{Logic Transformer -- a solution to the AGI problem?}
+\title{Logic is the Beginning of Wisdom}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -67,7 +70,7 @@
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-This paper has two main ideas:  The first is to explain two types of LLM (large language model) + RL (reinforcement learning) architectures, which are probably known in ``folklore'' but not explicitly stated.  The second idea is based on what we call ``Type L'' architectures.  Under this perspective, formal logic is essentially the same as natural language, and so LLMs (language models) are the same as logic processors.  We briefly considered differentiable ``Logic Transformers'' but realized that current Transformers have very strong advantages over other alternatives.
+... not the end of it; so said Spock in a 1991 Star Trek movie. This paper introduces Logic Transformer, a differentiable neural network that explicitly performs classical symbolic logic inference (with rules matching, substitutions, etc).  Preliminary experiments show that it achieves a very high compression ratio (ie fewer parameters) and also seems to train faster as a consequence.  From the ``No Free Lunch'' perspective this suggests that algebraic/categorical structure of logic is suitable for compressing our world (as Wittgenstein says, logic is a mirror-image of the world).  A high compression ratio forces the knowledge contained in our neural network to attain ``logic coherence'', which we believe is the antidote to hallucinations.  The explicit logic structure also opens the ``black boxes'' of neural networks for inspection and interpretation.  Moreover, it allows to use a classical symbolic logic inference engine (eg. OpenCog, OpenNARS) side-by-side with our neural network in a hybrid architecture, that may offer advantages we are only beginning to explore.  For all these implications, we claim that this is a key innovation that solves the AGI problem.
 
 \keywords{AGI \and large language models \and reinforcement learning \and neural-symbolic integration}
 \end{abstract}
@@ -77,6 +80,8 @@ This paper has two main ideas:  The first is to explain two types of LLM (large 
 %\end{tikzpicture}
 
 \section*{Part I. \ LLM + RL architectures}
+
+首先讲下 classical logic，
 
 For \textbf{string diagrams} \cite{Hinze2023} there are usually two conventions: 1) data are nodes, functions are edges: \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt] (math) {$x$}; $\stackrel{f}{\longrightarrow}$ \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt] (math) {$y$};  or alternatively 2) functions are nodes, data are edges: $\stackrel{x}{\longrightarrow}$ \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt,fill=gray!20] (math) {$f$}; $\stackrel{y}{\longrightarrow}$.  In the following, I make explicit nodes for both functions (grey) and data (white), whereas edges merely represent linkages.
 
