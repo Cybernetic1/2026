@@ -79,10 +79,7 @@
 %\node[draw, rectangle, red] at ([shift={(8cm,-2cm)}]current page.north west) {\huge\textbf{NOTE: unfinished draft}};
 %\end{tikzpicture}
 
-RL architecture, classical logic engines，Logic Transformer, various issues: Davidsonian grammar, reflection, reification, HOL, Horn, vectorization, etc.
-
-\section*{Part I. \ LLM + RL architectures}
-
+\section{background: LLM + RL architecture}
 
 
 For \textbf{string diagrams} \cite{Hinze2023} there are usually two conventions: 1) data are nodes, functions are edges: \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt] (math) {$x$}; $\stackrel{f}{\longrightarrow}$ \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt] (math) {$y$};  or alternatively 2) functions are nodes, data are edges: $\stackrel{x}{\longrightarrow}$ \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt,fill=gray!20] (math) {$f$}; $\stackrel{y}{\longrightarrow}$.  In the following, I make explicit nodes for both functions (grey) and data (white), whereas edges merely represent linkages.
@@ -204,7 +201,9 @@ Type L also has the advantage that we can directly examine the internal state of
 
 \textbf{The hallucination problem.}  The significance of combining RL and LLM is such that the system can \textit{think in loops}.  Reward maximization in the RL loop forces better thoughts to win, ie. those thoughts that are logically coherent with the rest of the learned knowledge.  This solves the problem of ``hallucinations'' when LLMs are just parroting human speech.  % This would   The remaining question is how to train the Type L model \textit{efficiently}, but this is more of an engineering rather than theoretical problem.
 
-\section*{Part II. \ ``Logic''}
+\section{Classical Logic Engines}
+
+\section{Logic Transformer}
 
 % ``Logic'' in quotes because, as I write this paper, I start to realize that neural associative memory (such as Transformer, which has been shown to be equivalent to Hopfield Networks \cite{Ramsauer2021}) may be a far superior form of ``logic'' than traditional, formal symbolic logic. % But I started this paper with differentiable symbolic logic, let's follow that idea.
 
@@ -442,7 +441,21 @@ From a \textbf{functorial} point of view (eg.\cite{Crescenzi2024} \cite{Abbott20
 
 % But the Transformer has also been shown capable of discrete (syntactic) manipulations.  Does that mean that all functions with discretizing ability are equivalent?  Can the Transformer be replaced by a fully-connected NN with sigmoid activation?  Seems unlikely, and if not, then what sets them apart \textit{still}?  Well, an obvious answer is that we need to \textbf{count computations}.
 
-\section*{Conclusion}
+\section{Additional Features and Enhancements}
+
+\textbf{Davidsonian grammar.}
+
+\noindent \textbf{Reflection.}
+
+\noindent \textbf{Reification.}
+
+\noindent \textbf{HOL.}
+
+\noindent \textbf{Horn form.}
+
+\noindent \textbf{Vector Quantization.}
+
+\section{Conclusion}
 
 We proposed a simple AGI architecture that looks promising.  If the Transformer cannot be improved much further, we should perhaps accept the current design and proceed to the ``engineering'' phase of AGI development.
 
