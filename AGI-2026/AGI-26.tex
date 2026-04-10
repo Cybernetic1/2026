@@ -28,16 +28,39 @@
 \usepackage{stmaryrd}
 \usepackage{bm}
 \usepackage{mathtools}		% to extend length of double harpoon arrows
+							% also \xmapsto{}
 \usepackage{tikz,ifthen}
-\usetikzlibrary{arrows,positioning,decorations.markings,shapes.multipart,shapes.geometric,shapes.arrows,tikzmark,calc}
+\usetikzlibrary{arrows,positioning,decorations.markings,shapes.multipart,shapes.geometric,shapes.arrows,tikzmark,calc,decorations.pathreplacing,arrows.meta}
 \usepackage{tikz-cd}
+% \renewcommand{\tikzmark}[1]{\tikz[overlay,remember picture] \node (#1) {};}
 \usepackage{sidecap}
 \usepackage{comment}
 \usepackage{adjustbox}
 \usepackage{hyperref}
 
+\tikzset{
+	show controls/.style={
+		postaction={
+			decorate,
+			decoration={
+				show path construction,
+				curveto code={
+					\fill[red] (\tikzinputsegmentfirst) circle (2pt);
+					\fill[blue] (\tikzinputsegmentsupporta) circle (2pt);
+					\fill[blue] (\tikzinputsegmentsupportb) circle (2pt);
+					\fill[red] (\tikzinputsegmentlast) circle (2pt);
+					\draw[thin, gray, dashed]
+					(\tikzinputsegmentfirst) -- (\tikzinputsegmentsupporta)
+					(\tikzinputsegmentsupportb) -- (\tikzinputsegmentlast);
+				}
+			}
+		}
+	}
+}
+
 \newcommand\logic[1]{{\color{gray}\mathsf{#1}}}
 \newcommand*\sigmoid{\vcenter{\hbox{\includegraphics{sigmoid.png}}}}
+\newcommand*\kb{\vcenter{\hbox{\includegraphics{KB-symbol-tiny.png}}}}
 
 \makeatletter
 \newcommand\mathcircled[1]{%
@@ -72,17 +95,18 @@
 \begin{abstract}
 ... not the end of it; so said Spock in a 1991 Star Trek movie. This paper introduces Logic Transformer, a differentiable neural network that explicitly performs classical symbolic logic inference (with rules matching, substitutions, etc).  Preliminary experiments show that it achieves a very high compression ratio (ie fewer parameters) and also seems to train faster as a consequence.  From the ``No Free Lunch'' perspective this suggests that algebraic/categorical structure of logic is suitable for compressing our world (as Wittgenstein says, logic is a mirror-image of the world).  A high compression ratio forces the knowledge contained in our neural network to attain ``logic coherence'', which we believe is the antidote to hallucinations.  The explicit logic structure also opens the ``black boxes'' of neural networks for inspection and interpretation.  Moreover, it allows to use a classical symbolic logic inference engine (eg. OpenCog, OpenNARS) side-by-side with our neural network in a hybrid architecture, that may offer advantages we are only beginning to explore.  For all these implications, we claim that this is a key innovation that solves the AGI problem.
 
-\keywords{AGI \and large language models \and reinforcement learning \and neural-symbolic integration}
+\keywords{logic-based AI \and neural-symbolic integration \and LLMs (large language models)}
 \end{abstract}
 
 %\begin{tikzpicture}[remember picture,overlay]
 %\node[draw, rectangle, red] at ([shift={(8cm,-2cm)}]current page.north west) {\huge\textbf{NOTE: unfinished draft}};
 %\end{tikzpicture}
 
-\section{background: LLM + RL architecture}
+\section{Background: RL + LLM Architecture}
 
+This section outlines the basic framework required for subsequent work.  We aim to combine RL (reinforcement learning) and LLMs (fig. \ref{fig:fundamental-forms}).  LLMs are traditionally implemented by Transformers, to be replaced by Logic Transformers.
 
-For \textbf{string diagrams} \cite{Hinze2023} there are usually two conventions: 1) data are nodes, functions are edges: \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt] (math) {$x$}; $\stackrel{f}{\longrightarrow}$ \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt] (math) {$y$};  or alternatively 2) functions are nodes, data are edges: $\stackrel{x}{\longrightarrow}$ \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt,fill=gray!20] (math) {$f$}; $\stackrel{y}{\longrightarrow}$.  In the following, I make explicit nodes for both functions (grey) and data (white), whereas edges merely represent linkages.
+% For \textbf{string diagrams} \cite{Hinze2023} there are usually two conventions: 1) data are nodes, functions are edges: \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt] (math) {$x$}; $\stackrel{f}{\longrightarrow}$ \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt] (math) {$y$};  or alternatively 2) functions are nodes, data are edges: $\stackrel{x}{\longrightarrow}$ \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt,fill=gray!20] (math) {$f$}; $\stackrel{y}{\longrightarrow}$.  In the following, I make explicit nodes for both functions (grey) and data (white), whereas edges merely represent linkages.
 
 \begin{figure}
 \label{fig:fundamental-forms}
@@ -127,24 +151,26 @@ For \textbf{string diagrams} \cite{Hinze2023} there are usually two conventions:
 %\node[] (rho-1) at (1,0) {$\rho^{-1}$};
 
 \end{tikzpicture}
-\caption{The eye represents observations and the mouth (speech) actions.  Because RL has to maximize rewards, its internal representation (the state) must eventually approach a good approximation of the world.  LTM = long term memory, which works by associative recall and condensation, but will not concern us in this paper.  The auto-encoder, of which LLMs are a special case, works by compressing world-data (via $\rho$) and de-compressing (via $\rho^{-1}$) to re-construct the data (grey world).}
+\caption{Left: basic RL setup; LTM = long term memory. Right: The essence of an auto-encoder, of which LLMs are a special case, is to compress (via $\rho$) and reconstruct (via $\rho^{-1}$) world data.}
 \end{figure}
 
-First let's recall the \textbf{fundamental forms} of RL (Fig.\ref{fig:fundamental-forms} left) and auto-encoders (right).  The question is how to combine them, for which we can ignore long-term memory (which we will eventually see, is just a very large Working Memory).  Both RL and LLM have the ``state'' $x$ in common but there are subtle differences as to how to interpret these states (Fig.\ref{fig:types-AB}).  Initially my research favored \textbf{Type W}, where the LLM is interpreted as a \textbf{world model}.  This approach suffers the problem that we don't really understand the internal state (marked ``?'') of LLMs, which consists of many layers of Transformers and their intermediate token outputs, so we don't know how to ``merge'' the RL state with the LLM state.
+% First let's recall the \textbf{fundamental forms} of RL (Fig.\ref{fig:fundamental-forms} left) and auto-encoders (right).  The question is how to combine them, for which we can ignore long-term memory (which we will eventually see, is just a very large Working Memory).  Both RL and LLM have the ``state'' $x$ in common but there are subtle differences as to how to interpret these states (Fig.\ref{fig:types-AB}).  Initially my research favored \textbf{Type W}, where the LLM is interpreted as a \textbf{world model}.  This approach suffers the problem that we don't really understand the internal state (marked ``?'') of LLMs, which consists of many layers of Transformers and their intermediate token outputs, so we don't know how to ``merge'' the RL state with the LLM state.
 
 % 反省的有效性，取决于： 这个 loop 如何训练，有效地训练。
 
-% (Other researchers have proposed different taxonomies \cite{?}).
-It seems that \textbf{Type L} would be easier to work with, and it is also the ``mainstream'' approach, along the direction of RLHF \cite{Li2023}.  Here, the LLM simply loops over itself to complete the RL cycle.  LLM models the ``spoken thoughts'' of human thinking, as found in text corpora.  These thoughts are interpreted as internal states of the RL.  Ever since Richard Montague's success in converting a fragment of English into formal logic \cite{Montague1970} \cite{Montague1973}, the line between formal logic and natural language is blurred.  We should not obsess with the idea that ``logic'' must be some kind of cryptic, undecipherable code.  A new perspective is that \textit{the ``representation'' of human internal thought is just natural language} (or very close to it).
+Two types of architectures are possible (fig. \ref{fig:types-T-and-W}), where a traditional LLM may serve as a world-model (\textbf{W}) or as a model of thinking processes (\textbf{T}).  It turns out the latter is more natural and similar to mainstream approaches such as RLHF \cite{Li2023}.  It implies that ``prompts'' are regarded as Working Memory and offers the tremendous advantage that humans can read the thoughts of an AGI directly in natural language.
 
-Type L also has the advantage that we can directly examine the internal state of an AGI.  What are currently called ``prompts'' is just \textbf{Working Memory}.  We can think of the prompt as something akin to our ``\textbf{inner speech}'' when thinking \cite{Haikonen2012}.
+% (Other researchers have proposed different taxonomies \cite{?}).
+% It seems that \textbf{Type L} would be easier to work with, and it is also the ``mainstream'' approach, along the direction of RLHF \cite{Li2023}.  Here, the LLM simply loops over itself to complete the RL cycle.  LLM models the ``spoken thoughts'' of human thinking, as found in text corpora.  These thoughts are interpreted as internal states of the RL.  Ever since Richard Montague's success in converting a fragment of English into formal logic \cite{Montague1970} \cite{Montague1973}, the line between formal logic and natural language is blurred.  We should not obsess with the idea that ``logic'' must be some kind of cryptic, undecipherable code.  A new perspective is that \textit{the ``representation'' of human internal thought is just natural language} (or very close to it).
+
+% Type L also has the advantage that we can directly examine the internal state of an AGI.  What are currently called ``prompts'' is just \textbf{Working Memory}.  We can think of the prompt as something akin to our ``\textbf{inner speech}'' when thinking \cite{Haikonen2012}.
 
 \begin{figure}
-\label{fig:types-AB}
+\label{fig:types-T-and-W}
 \begin{tikzpicture}[node distance=-2pt,every path/.style={thick},decoration={
 	markings,mark=at position 0.53 with {\arrow{>}}}]
 
-\node[rectangle, align=left, text depth=5pt, anchor=west, text width=100pt] at (-1.5, 2.25) {\textbf{(Type L)} LLM as \\ language model};
+\node[rectangle, align=left, text depth=5pt, anchor=west, text width=100pt] at (-1.5, 2.25) {\textbf{(Type T)} LLM as \\ thinking model};
 
 \node[draw,thick,dashed,rectangle, minimum height=66pt, rounded corners=10pt, minimum width=50pt, label=right:RL] (RL) at (2, 0) {};
 \node (state) [draw,rectangle split,rectangle split parts=2,minimum width=3em] at (0, 0) {$x_{t}$ \nodepart{two} $x_{t+1}$};
@@ -199,38 +225,32 @@ Type L also has the advantage that we can directly examine the internal state of
 \caption{Two types of RL + LLM architectures. NL${}^{-1}$ is a map that compresses natural language to a hidden representation (not shown explicitly).}
 \end{figure}
 
-\textbf{The hallucination problem.}  The significance of combining RL and LLM is such that the system can \textit{think in loops}.  Reward maximization in the RL loop forces better thoughts to win, ie. those thoughts that are logically coherent with the rest of the learned knowledge.  This solves the problem of ``hallucinations'' when LLMs are just parroting human speech.  % This would   The remaining question is how to train the Type L model \textit{efficiently}, but this is more of an engineering rather than theoretical problem.
-
-\section{Classical Logic Engines}
-
-\section{Logic Transformer}
-
-% ``Logic'' in quotes because, as I write this paper, I start to realize that neural associative memory (such as Transformer, which has been shown to be equivalent to Hopfield Networks \cite{Ramsauer2021}) may be a far superior form of ``logic'' than traditional, formal symbolic logic. % But I started this paper with differentiable symbolic logic, let's follow that idea.
+% \textbf{The hallucination problem.}  The significance of combining RL and LLM is such that the system can \textit{think in loops}.  Reward maximization in the RL loop forces better thoughts to win, ie. those thoughts that are logically coherent with the rest of the learned knowledge.  This solves the problem of ``hallucinations'' when LLMs are just parroting human speech.  % This would   The remaining question is how to train the Type L model \textit{efficiently}, but this is more of an engineering rather than theoretical problem.
 
 As we know, LLMs predict the next word per each iteration.  % The number of possible natural-language sentences is an astronomical figure (if not $\infty$), so it is infeasible in practice to represent probability distributions over this set.  However, as vocabulary size is finite, the conditional probabilities $\mathbb{P}$(next word | prior words, context) are manageable.  % This part of LLMs efficiency -- by exploiting the decomposition of sentences into words.
 %For a long time I tried to analyze the Transformer (Self Attention) from a symbolic-logic point of view, but did not know how to interpret the meaning of \textbf{tokens} -- do they correspond to logic propositions, or to sub-propositional symbols?  The question is how to reconcile these two views:
 For a long time I have been trying to reconcile the following two views:
 \begin{equation}
-\nonumber
-\hspace{-1cm} \begin{tikzpicture}[align=center, every path/.style={thick}]
-\node[text width=100pt] at (-5.5, 0) {\textbf{current\\LLMs}};
+	\nonumber
+	\hspace{-1cm} \begin{tikzpicture}[align=center, every path/.style={thick}]
+		\node[text width=100pt] at (-5.5, 0) {\textbf{current\\LLMs}};
 
-\node (inputs1) [] at (-3,0) {prior words};
-\node (KB1) [draw,thick,cylinder,shape aspect=0.1,shape border rotate=90,text width=60pt] at (0,0) {layers of\\Transformers};
-\node (outputs1) [] at (3,0) {next word};
+		\node (inputs1) [] at (-3,0) {prior words};
+		\node (KB1) [draw,thick,cylinder,shape aspect=0.1,shape border rotate=90,text width=60pt] at (0,0) {layers of\\Transformers};
+		\node (outputs1) [] at (3,0) {next word};
 
-\draw[->] (inputs1) edge (KB1) (KB1) -- (outputs1);
+		\draw[->] (inputs1) edge (KB1) (KB1) -- (outputs1);
 
-% -------------------------------
+		% -------------------------------
 
-\node[text width=100pt] at (-5.5, -1.5) {\textbf{symbolic AI}\\eg. OpenCog,\\OpenNARS};
+		\node[text width=100pt] at (-5.5, -1.5) {\textbf{symbolic AI}\\eg. OpenCog,\\OpenNARS};
 
-\node (inputs2) [] at (-2.5,-1.5) {propositions in\\working memory};
-\node (KB2) [draw,thick,cylinder,shape aspect=0.15,shape border rotate=90,text width=30pt] at (0.5,-1.5) {logic\\rules};
-\node (outputs2) [] at (3,-1.5) {inferred\\proposition};
+		\node (inputs2) [] at (-2.5,-1.5) {propositions in\\working memory};
+		\node (KB2) [draw,thick,cylinder,shape aspect=0.15,shape border rotate=90,text width=30pt] at (0.5,-1.5) {logic\\rules};
+		\node (outputs2) [] at (3,-1.5) {inferred\\proposition};
 
-\draw[->] (inputs2) edge (KB2) (KB2) -- (outputs2);
-\end{tikzpicture}
+		\draw[->] (inputs2) edge (KB2) (KB2) -- (outputs2);
+	\end{tikzpicture}
 \end{equation}
 until I had the insight that a logic-based system could output a proposition to rewrite part of a linguistic tree or graph, similar to the LLM outputting the next word to complete a sentence.
 
@@ -260,6 +280,23 @@ One way to define a rewrite rule \cite{Kennaway1993} is as a pair of morphisms $
 	\end{tikzcd}
 \end{equation}
 This occurs in a category where graphs are objects and homomorphisms define some notion of ``matching''.  Now if we imagine a \textbf{differentiable} version of rewriting rules (see (\ref{eqn:differentiable-variable-slots}) below \footnote{with experimental code available on \href{https://github.com/Cybernetic1/reinforcement-learning-experiments}{https://github.com/Cybernetic1/reinforcement-learning-experiments}}), all the rules would be represented by a set of parameters $\Theta \in \mathbb{R}^n$, and the parameterized rules \textit{must} cover the entire family of rewrite rules as $\Theta$ vary continuously (in practice, we can limit the rules length to make that possible).  This requires the use of ``\textbf{discretizing}'' functions such as sigmoid and softmax, and may be formulated by a fairly mechanical process.  However, in doing so we have overlooked the possibility that a \textbf{deep} neural network such as Transformer may be able to aggregate all the contents of Working Memory, output some intermediate \textbf{distributive} representations, before finally outputting some discrete tokens.  Such a process would imply $L$ matches the entire input graph $G$ in (\ref{eqn:rewrite-rule}).
+
+\section{Logic Transformer}
+
+In classical logic-based AI, a single step of inference is a mapping $ \Delta \xmapsto{\kb} \Delta + \delta $ where $\kb$ is a set of logic \textbf{rules} and $\Delta$ is a set of ground propositions or \textbf{facts}.  $\Delta$ also called the state $\vec{x}$ or Working Memory.  ``Set'' implies algebraic structure, ie, permutation invariance of elements.  We recognized early on that this has a connection with the equivariance structure of Self-Attention; but it was not obvious how to extract further algebraic structures from logic and to apply such symmetries; instead, we found a way to actually implement the syntactic process of substitutions and logic-rule applications, so the resulting neural network obviously inherits logic structure implicitly.  A logic rule is a formula with variables such as: %\vspace{0.1cm}
+\begin{equation}
+	\forall X \; \forall Y \; \forall Z.  \quad \text{father}(\tikzmarknode{nX1}{{\color{gray}X}}, \tikzmarknode{nY1}{{\color{gray}Y}}) \wedge \mbox{father}(\tikzmarknode{nY2}{{\color{gray}Y}}, \tikzmarknode{nZ1}{{\color{gray}Z}})
+	\Rightarrow \text{grandfather}(\tikzmarknode{nX2}{{\color{gray}X}}, \tikzmarknode{nZ2}{{\color{gray}Z}})
+	\begin{tikzpicture}[remember picture,overlay,distance=1.1cm]
+		\draw[-,thick,dotted,transform canvas={shift={(1pt,5pt)}}] (nX1.center) .. controls +(0cm,0.4cm) and +(-0cm,0.4cm) .. (nX2.center);
+		\draw[-,thick,dotted,transform canvas={shift={(0pt,-5pt)}}] (nY1.center) .. controls +(0cm,-0.3cm) and +(0cm,-0.3cm) .. (nY2.center);
+		\draw[-,thick,dotted,transform canvas={shift={(0pt,-5pt)}}] (nZ1.center) .. controls +(0cm,-0.3cm) and +(0cm,-0.3cm) .. (nZ2.center);
+	\end{tikzpicture}
+	\label{linkage-father}
+\end{equation}
+where the variables must obey strict discipline ($X$ matches to $X$, etc) as shown by dotted lines.
+
+% ``Logic'' in quotes because, as I write this paper, I start to realize that neural associative memory (such as Transformer, which has been shown to be equivalent to Hopfield Networks \cite{Ramsauer2021}) may be a far superior form of ``logic'' than traditional, formal symbolic logic. % But I started this paper with differentiable symbolic logic, let's follow that idea.
 
 % Finally I had a break-through insight that a symbolic-logic Transformer should output \textbf{atomic propositions} that modify a linguistic tree \textbf{at one position} at a time (Fig.\ref{fig:flat-vs-tree}).  Tree structure simplifies the implementation of logic rules -- fewer parameters needed; learns faster.  An analogy is that humans try to parse sentences syntactically first (which requires only superficial information such as parts-of-speech) before deeper semantic understanding.  In order words, grammar \textit{simplifies} subsequent understanding.
 
@@ -352,8 +389,18 @@ This occurs in a category where graphs are objects and homomorphisms define some
 %\logic{grand\hbox{-}father}(\begin{tikzpicture} \draw[line width=3pt, gray!50] (0.2,0.9) -- (0.2,0) (0.5,0.2) -- (0.5,0) (0.8,0.9) -- (0.8,0); \draw[thick] (0,0) to (1,0); \end{tikzpicture})
 %\end{equation}
 
+A key innovation is what I termed the \textbf{cylindrification factor} $\gamma$, which allows a logic constant to change continuously into a variable, as illustrated in fig. \ref{fig:cylindrification}.
+
+\begin{figure}
+%	\hspace{-3cm}
+	\includegraphics[scale=.6]{cylindrify-example.png}
+	\caption{Illustration of the cylindrification factor $\gamma$.}
+	\label{fig:cylindrification}
+\end{figure}
+
+
 %\textbf{Differentiable symbolic logic}.  In order to implement differentiable logic rules, I came up with a mechanism sort of like ``loading'' and ``unloading'' tokens into variable slots:
-Part of a differentiable rewriting rule may look like this:
+Furthering the idea, the matching (or \textbf{unification}) of variables makes use of a fixed number of variable ``slots'' where we ``move'' contents in and out of the slots by neural weights with \textbf{Softmax}, so that the transfer of contents can vary continuously:
 \begin{align}
 \nonumber
 & \qquad \qquad \tikzmark{Y1}
