@@ -27,6 +27,7 @@
 \usepackage{eucal}	 	% for better-looking \mathcal
 \usepackage{stmaryrd}
 \usepackage{bm}
+\usepackage{relsize}	% for bigger \forall
 \usepackage{mathtools}		% to extend length of double harpoon arrows
 							% also \xmapsto{}
 \usepackage{tikz,ifthen}
@@ -444,11 +445,20 @@ which has a form quite similar to the \textbf{Self-Attention} of Transformers (r
 %\begin{equation}
 %\text{Attention}(\mathbf{Q,K,V}) = \text{soft}\max  \frac{\langle \mathbf{Q,K} \rangle}{\sqrt{d_k}} \mathbf{V}
 %\end{equation}
+
 \begin{equation}
+\begin{aligned}
+	\hat{x}^k \mathrel{:}= \underset{\substack{i \in \text{predicates} \\
+		j \in \text{arguments}}}{\mathlarger{\forall}} \; \left\langle \mathrm{soft}\max_{ij} w_{ij}^k \; , \; x_{ij} \right\rangle
+	\quad
 	\vcenter{\hbox{\includegraphics[scale=0.4]{logic-Transformer-string-diagram.png}}}
+	\\
+	\alpha(\mathbf{Q,K,V}) = \text{soft}\max  \frac{\langle \mathbf{Q,K} \rangle}{\sqrt{d_k}} \mathbf{V}
 	\quad
 	\vcenter{\hbox{\includegraphics[scale=0.4]{Attention-string-diagram.png}}}
+\end{aligned}
 \end{equation}
+
 but the rule (\ref{eqn:differentiable-variable-slots}) neglected the fact that the variables in each $\mathsf{father}$ atom must match their variables with each other (a situation well-known in classical logic-based AI).  This means we have to programmatically feed all \textit{pairs} of Working-Memory atoms, ie. the Cartesian product $A \times A$, into the above string diagram.  That makes it different from the Transformer which takes its input in plain form.  The reason why Transformer can do that is because it has many \textbf{layers}, and the matching of $A \times A$ can be achieved over these layers.
 
 % except that softmax does not commute with inner products, so they are not exactly equivalent, but qualitatively similar.
