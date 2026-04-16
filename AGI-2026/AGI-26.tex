@@ -31,7 +31,7 @@
 \usepackage{mathtools}		% to extend length of double harpoon arrows
 							% also \xmapsto{}
 \usepackage{tikz,ifthen}
-\usetikzlibrary{arrows,positioning,decorations.markings,shapes.multipart,shapes.geometric,shapes.arrows,tikzmark,calc,decorations.pathreplacing,arrows.meta}
+\usetikzlibrary{quotes,arrows,positioning,decorations.markings,shapes.multipart,shapes.geometric,shapes.arrows,tikzmark,calc,decorations.pathreplacing,arrows.meta}
 \usepackage{tikz-cd}
 % \renewcommand{\tikzmark}[1]{\tikz[overlay,remember picture] \node (#1) {};}
 \usepackage{sidecap}
@@ -410,56 +410,78 @@ Furthering the idea, the matching (or \textbf{unification}) of variables makes u
 \qquad
 \tikzmark{Y2} \fcolorbox{gray!50}{white}{$\hat{x}^2$}
 \qquad
-\tikzmark{Y3} \fcolorbox{gray!50}{white}{$\hat{x}^3$} \\
+\tikzmark{Y3} \fcolorbox{gray!50}{white}{$\hat{x}^3$}
+\hspace{3.4cm}
+\tikzmark{Z1} \fcolorbox{gray!30}{white}{} \quad
+\tikzmark{Z2} \fcolorbox{gray!30}{white}{} \quad
+\tikzmark{Z3} \fcolorbox{gray!30}{white}{}
+\\
 \label{eqn:differentiable-variable-slots}
 & \qquad w_{ij}^k \\
-& \nonumber \\
-& \logic{father}(\tikzmark{X11} x_{11}, \tikzmark{X12} x_{12}, \tikzmark{X13} \bullet_{13}) \wedge
-\logic{father}(\tikzmark{X21} \bullet_{21}, \tikzmark{X22} x_{22}, \tikzmark{X23} x_{23}) \rightarrow \logic{grand\hbox{-}father}(x_1,\bullet_2,x_3)
+& \hspace{8.4cm} \hat{w}^k_\ell  \nonumber \\
+& \logic{father}(\tikzmark{X11} x_{11}, \tikzmark{X12} x_{12}, \tikzmark{X13} {-}_{13}) \wedge
+\logic{father}(\tikzmark{X21} {-}_{21}, \tikzmark{X22} x_{22}, \tikzmark{X23} x_{23}) \rightarrow \logic{grand\hbox{-}father}(\tikzmark{X1} x_1, \tikzmark{X2} {-}_2, \tikzmark{X3} x_3) .
 \nonumber
 \begin{tikzpicture}[remember picture,overlay]
-\draw (pic cs:Y1) +(10pt,-7pt) -- ($ (pic cs:X11) +(7pt,12pt) $);
-\draw (pic cs:Y1) +(10pt,-7pt) -- ($ (pic cs:X12) +(7pt,12pt) $);
-\draw (pic cs:Y1) +(10pt,-7pt) -- ($ (pic cs:X13) +(7pt,12pt) $);
-\draw (pic cs:Y1) +(10pt,-7pt) -- ($ (pic cs:X21) +(7pt,12pt) $);
-\draw (pic cs:Y1) +(10pt,-7pt) -- ($ (pic cs:X22) +(7pt,12pt) $);
-\draw (pic cs:Y1) +(10pt,-7pt) -- ($ (pic cs:X23) +(7pt,12pt) $);
-\draw (pic cs:Y2) +(10pt,-7pt) -- ($ (pic cs:X11) +(7pt,12pt) $);
-\draw (pic cs:Y2) +(10pt,-7pt) -- ($ (pic cs:X12) +(7pt,12pt) $);
-\draw (pic cs:Y2) +(10pt,-7pt) -- ($ (pic cs:X13) +(7pt,12pt) $);
-\draw (pic cs:Y2) +(10pt,-7pt) -- ($ (pic cs:X21) +(7pt,12pt) $);
-\draw (pic cs:Y2) +(10pt,-7pt) -- ($ (pic cs:X22) +(7pt,12pt) $);
-\draw (pic cs:Y2) +(10pt,-7pt) -- ($ (pic cs:X23) +(7pt,12pt) $);
-\draw (pic cs:Y3) +(10pt,-7pt) -- ($ (pic cs:X11) +(7pt,12pt) $);
-\draw (pic cs:Y3) +(10pt,-7pt) -- ($ (pic cs:X12) +(7pt,12pt) $);
-\draw (pic cs:Y3) +(10pt,-7pt) -- ($ (pic cs:X13) +(7pt,12pt) $);
-\draw (pic cs:Y3) +(10pt,-7pt) -- ($ (pic cs:X21) +(7pt,12pt) $);
-\draw (pic cs:Y3) +(10pt,-7pt) -- ($ (pic cs:X22) +(7pt,12pt) $);
-\draw (pic cs:Y3) +(10pt,-7pt) -- ($ (pic cs:X23) +(7pt,12pt) $);
+\draw (pic cs:Y1) +(10pt,-7pt) -- ($ (pic cs:X11) +(7pt,10pt) $);
+\draw (pic cs:Y1) +(10pt,-7pt) -- ($ (pic cs:X12) +(7pt,10pt) $);
+\draw (pic cs:Y1) +(10pt,-7pt) -- ($ (pic cs:X13) +(7pt,10pt) $);
+\draw (pic cs:Y1) +(10pt,-7pt) -- ($ (pic cs:X21) +(7pt,10pt) $);
+\draw (pic cs:Y1) +(10pt,-7pt) -- ($ (pic cs:X22) +(7pt,10pt) $);
+\draw (pic cs:Y1) +(10pt,-7pt) -- ($ (pic cs:X23) +(7pt,10pt) $);
+\draw (pic cs:Y2) +(10pt,-7pt) -- ($ (pic cs:X11) +(7pt,10pt) $);
+\draw (pic cs:Y2) +(10pt,-7pt) -- ($ (pic cs:X12) +(7pt,10pt) $);
+\draw (pic cs:Y2) +(10pt,-7pt) -- ($ (pic cs:X13) +(7pt,10pt) $);
+\draw (pic cs:Y2) +(10pt,-7pt) -- ($ (pic cs:X21) +(7pt,10pt) $);
+\draw (pic cs:Y2) +(10pt,-7pt) -- ($ (pic cs:X22) +(7pt,10pt) $);
+\draw (pic cs:Y2) +(10pt,-7pt) -- ($ (pic cs:X23) +(7pt,10pt) $);
+\draw (pic cs:Y3) +(10pt,-7pt) -- ($ (pic cs:X11) +(7pt,10pt) $);
+\draw (pic cs:Y3) +(10pt,-7pt) -- ($ (pic cs:X12) +(7pt,10pt) $);
+\draw (pic cs:Y3) +(10pt,-7pt) -- ($ (pic cs:X13) +(7pt,10pt) $);
+\draw (pic cs:Y3) +(10pt,-7pt) -- ($ (pic cs:X21) +(7pt,10pt) $);
+\draw (pic cs:Y3) +(10pt,-7pt) -- ($ (pic cs:X22) +(7pt,10pt) $);
+\draw (pic cs:Y3) +(10pt,-7pt) -- ($ (pic cs:X23) +(7pt,10pt) $);
+\draw (pic cs:Z1) +(6pt,-7pt) -- ($ (pic cs:X1) +(7pt,10pt) $);
+\draw (pic cs:Z1) +(6pt,-7pt) -- ($ (pic cs:X2) +(7pt,10pt) $);
+\draw (pic cs:Z1) +(6pt,-7pt) -- ($ (pic cs:X3) +(7pt,10pt) $);
+\draw (pic cs:Z2) +(6pt,-7pt) -- ($ (pic cs:X1) +(7pt,10pt) $);
+\draw (pic cs:Z2) +(6pt,-7pt) -- ($ (pic cs:X2) +(7pt,10pt) $);
+\draw (pic cs:Z2) +(6pt,-7pt) -- ($ (pic cs:X3) +(7pt,10pt) $);
+\draw (pic cs:Z3) +(6pt,-7pt) -- ($ (pic cs:X1) +(7pt,10pt) $);
+\draw (pic cs:Z3) +(6pt,-7pt) -- ($ (pic cs:X2) +(7pt,10pt) $);
+\draw (pic cs:Z3) +(6pt,-7pt) -- ($ (pic cs:X3) +(7pt,10pt) $);
+\draw[->,dotted] (pic cs:Y3) +(27pt,5pt) to [midway,sloped,"move"] ($ (pic cs:Z1) +(-3pt,0pt) $);
 \end{tikzpicture}
 \end{align}
 %\begin{equation}
 %\hat{x}^k \mathrel{:}= \underset{\text{predicates}}{\forall i \in} \; \underset{\text{arguments}}{\forall j \in} \left\langle \mathrm{soft}\max_{ij} w_{ij}^k \; , \; x_{ij} \right\rangle
 %\end{equation}
-which has a form quite similar to the \textbf{Self-Attention} of Transformers (right):
+Interestingly, this operation has a form very similar to \textbf{Self-Attention} except for the order of softmax and tensor product (with neural string-diagrams on the right):
 %\begin{equation}
 %\text{Attention}(\mathbf{Q,K,V}) = \text{soft}\max  \frac{\langle \mathbf{Q,K} \rangle}{\sqrt{d_k}} \mathbf{V}
 %\end{equation}
-
 \begin{equation}
 \begin{aligned}
-	\hat{x}^k \mathrel{:}= \underset{\substack{i \in \text{predicates} \\
-		j \in \text{arguments}}}{\mathlarger{\forall}} \; \left\langle \mathrm{soft}\max_{ij} w_{ij}^k \; , \; x_{ij} \right\rangle
-	\quad
-	\vcenter{\hbox{\includegraphics[scale=0.4]{logic-Transformer-string-diagram.png}}}
+	% \hat{x}^k \mathrel{:}= \underset{\substack{i \in \text{predicates} \\
+	%	j \in \text{arguments}}}{\mathlarger{\forall}} \; \left\langle \mathrm{soft}\max_{ij} w_{ij}^k \; , \; x_{ij} \right\rangle
+	Z \mathrel{:}= \sigmoid \hat{W} \otimes \left( \sigmoid W \; \otimes \; X \right)
+	\qquad
+	\vcenter{\hbox{\includegraphics[scale=0.4]{substitution-string-diagram.png}}}
 	\\
-	\alpha(\mathbf{Q,K,V}) = \text{soft}\max  \frac{\langle \mathbf{Q,K} \rangle}{\sqrt{d_k}} \mathbf{V}
-	\quad
+	\alpha \mathrel{:}= \sigmoid \frac{\langle XW^Q, XW^K \rangle}{\sqrt{d_k}} XW^V .
+	\qquad
 	\vcenter{\hbox{\includegraphics[scale=0.4]{Attention-string-diagram.png}}}
 \end{aligned}
 \end{equation}
+The next step would be to match WMEs (Working Memory Elements, ie, propositions) to rule arguments.  This is the point when we stopped and submitted our last paper, which was rejected.  We concluded that WME matching was too complicated, and the traditional Transformer, as a distorted form of logic rules, somehow does the job equivalently, and may be even superior due to ``distributive representations.''  Afterwards, we had nothing to do, so we tried to work out the remaining parts, just for the completeness of a long research journey.  It turns out that we need the permutations of all WMEs, which is simply the Cartesian self-product $X \times X \times ...$ if we ignore ``replacement'' -- which is okay, if we don't mind the same WME matching more than one part of a rule.  The result is Fig. \ref{fig:logic-Transformer-string-diagram}.  Then came the amazing experimental result that it can solve TicTacToe quite efficiently.
+\begin{figure}
+	\hspace{-2cm}
+	\includegraphics[scale=.6]{logic-Transformer-string-diagram-4b.png}
+	\caption{String-diagram of the Logic Transformer.}
+	\label{fig:logic-Transformer-string-diagram}
+\end{figure}
 
-but the rule (\ref{eqn:differentiable-variable-slots}) neglected the fact that the variables in each $\mathsf{father}$ atom must match their variables with each other (a situation well-known in classical logic-based AI).  This means we have to programmatically feed all \textit{pairs} of Working-Memory atoms, ie. the Cartesian product $A \times A$, into the above string diagram.  That makes it different from the Transformer which takes its input in plain form.  The reason why Transformer can do that is because it has many \textbf{layers}, and the matching of $A \times A$ can be achieved over these layers.
+%but the rule (\ref{eqn:differentiable-variable-slots}) neglected the fact that the variables in each $\mathsf{father}$ atom must match their variables with each other (a situation well-known in classical logic-based AI).  This means we have to programmatically feed all \textit{pairs} of Working-Memory atoms, ie. the Cartesian product $A \times A$, into the above string diagram.  That makes it different from the Transformer which takes its input in plain form.  The reason why Transformer can do that is because it has many \textbf{layers}, and the matching of $A \times A$ can be achieved over these layers.
 
 % except that softmax does not commute with inner products, so they are not exactly equivalent, but qualitatively similar.
 Indeed, neural \textbf{associative memory} (such as Transformer, which are shown to be equivalent to Hopfield Networks \cite{Ramsauer2021}) may be a far superior form of ``logic'' than traditional, formal symbolic logic.  Consider the logic example:
