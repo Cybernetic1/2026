@@ -473,9 +473,9 @@ Interestingly, this operation has a form very similar to \textbf{Self-Attention}
 	\vcenter{\hbox{\includegraphics[scale=0.4]{Attention-string-diagram.png}}}
 \end{aligned}
 \end{equation}
-The next step would be to match WMEs (Working Memory Elements, ie, propositions) to rule arguments.  This is the point when we stopped and submitted our last paper, which was rejected.  We concluded that WME matching was too complicated, and the traditional Transformer, as a distorted form of logic rules, somehow does the job equivalently, and may be even superior due to ``distributive representations.''  Afterwards, we had nothing to do, so we tried to work out the remaining parts, just for the completeness of a long research journey.  It turns out that we need the permutations of all WMEs, which is simply the Cartesian self-product $X \times X \times ...$ if we ignore ``replacement'' -- which is okay, if we don't mind the same WME matching more than one part of a rule.  The result is Fig. \ref{fig:logic-Transformer-string-diagram}.  Then came the amazing experimental result that it can solve TicTacToe quite efficiently.
+The next step would be to match WMEs (Working Memory Elements, ie, propositions) to rule arguments.  This is the point when we stopped and submitted our last paper, which was rejected.  We concluded that WME matching was too complicated, and the traditional Transformer, as a distorted form of logic rules, somehow does the job equivalently, and may be even superior due to ``distributive representations.''  Afterwards, we tried to work out the remaining parts, just for the completeness of a long research journey.  It turns out what was needed is the permutations of all WMEs, which is simply the Cartesian self-product $X \times X \times ...$ if we ignore ``replacement'' -- which is okay, if one doesn't mind the same WME matching more than one part of a rule.  The result is Fig. \ref{fig:logic-Transformer-string-diagram}.  Then came the amazing experimental result that it can solve TicTacToe quite efficiently.
 \begin{figure}
-	\hspace{-2cm}
+	\hspace{-1.5cm}
 	\includegraphics[scale=.6]{logic-Transformer-string-diagram-4b.png}
 	\caption{String-diagram of the Logic Transformer.}
 	\label{fig:logic-Transformer-string-diagram}
