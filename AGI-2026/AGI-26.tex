@@ -280,7 +280,7 @@ One way to define a rewrite rule \cite{Kennaway1993} is as a pair of morphisms $
 		G & D \arrow[l] \arrow[r] & H
 	\end{tikzcd}
 \end{equation}
-This occurs in a category where graphs are objects and homomorphisms define some notion of ``matching''.  Now if we imagine a \textbf{differentiable} version of rewriting rules (see (\ref{eqn:differentiable-variable-slots}) below \footnote{with experimental code available on \href{https://github.com/Cybernetic1/reinforcement-learning-experiments}{https://github.com/Cybernetic1/reinforcement-learning-experiments}}), all the rules would be represented by a set of parameters $\Theta \in \mathbb{R}^n$, and the parameterized rules \textit{must} cover the entire family of rewrite rules as $\Theta$ vary continuously (in practice, we can limit the rules length to make that possible).  This requires the use of ``\textbf{discretizing}'' functions such as sigmoid and softmax, and may be formulated by a fairly mechanical process.  However, in doing so we have overlooked the possibility that a \textbf{deep} neural network such as Transformer may be able to aggregate all the contents of Working Memory, output some intermediate \textbf{distributive} representations, before finally outputting some discrete tokens.  Such a process would imply $L$ matches the entire input graph $G$ in (\ref{eqn:rewrite-rule}).
+This occurs in a category where graphs are objects and homomorphisms define some notion of ``matching''.  Now if we imagine a \textbf{differentiable} version of rewriting rules (see (\ref{eqn:differentiable-variable-slots}) below), all the rules would be represented by a set of parameters $\Theta \in \mathbb{R}^n$, and the parameterized rules \textit{must} cover the entire family of rewrite rules as $\Theta$ vary continuously (in practice, we can limit the rules length to make that possible).  This requires the use of ``\textbf{discretizing}'' functions such as sigmoid and softmax, and may be formulated by a fairly mechanical process.  However, in doing so we have overlooked the possibility that a \textbf{deep} neural network such as Transformer may be able to aggregate all the contents of Working Memory, output some intermediate \textbf{distributive} representations, before finally outputting some discrete tokens.  Such a process would imply $L$ matches the entire input graph $G$ in (\ref{eqn:rewrite-rule}).
 
 \section{Logic Transformer}
 
@@ -394,11 +394,11 @@ A key innovation is what I termed the \textbf{cylindrification factor} $\gamma$,
 
 \begin{figure}
 %	\hspace{-3cm}
-	\includegraphics[scale=.6]{cylindrify-example.png}
+	\centering
+	\includegraphics[scale=.5]{cylindrify-example.png}
 	\caption{Illustration of the cylindrification factor $\gamma$.}
 	\label{fig:cylindrification}
 \end{figure}
-
 
 %\textbf{Differentiable symbolic logic}.  In order to implement differentiable logic rules, I came up with a mechanism sort of like ``loading'' and ``unloading'' tokens into variable slots:
 Furthering the idea, the matching (or \textbf{unification}) of variables makes use of a fixed number of variable ``slots'' where we ``move'' contents in and out of the slots by neural weights with \textbf{Softmax}, so that the transfer of contents can vary continuously:
@@ -456,7 +456,7 @@ Furthering the idea, the matching (or \textbf{unification}) of variables makes u
 %\begin{equation}
 %\hat{x}^k \mathrel{:}= \underset{\text{predicates}}{\forall i \in} \; \underset{\text{arguments}}{\forall j \in} \left\langle \mathrm{soft}\max_{ij} w_{ij}^k \; , \; x_{ij} \right\rangle
 %\end{equation}
-Interestingly, this operation has a form very similar to \textbf{Self-Attention} except for the order of softmax and tensor product (with neural string-diagrams on the right):
+Interestingly, substitution / unification has a form very similar to \textbf{Self-Attention} except for the order of softmax and tensor product (with neural string-diagrams on the right):
 %\begin{equation}
 %\text{Attention}(\mathbf{Q,K,V}) = \text{soft}\max  \frac{\langle \mathbf{Q,K} \rangle}{\sqrt{d_k}} \mathbf{V}
 %\end{equation}
@@ -473,13 +473,40 @@ Interestingly, this operation has a form very similar to \textbf{Self-Attention}
 	\vcenter{\hbox{\includegraphics[scale=0.4]{Attention-string-diagram.png}}}
 \end{aligned}
 \end{equation}
-The next step would be to match WMEs (Working Memory Elements, ie, propositions) to rule arguments.  This is the point when we stopped and submitted our last paper, which was rejected.  We concluded that WME matching was too complicated, and the traditional Transformer, as a distorted form of logic rules, somehow does the job equivalently, and may be even superior due to ``distributive representations.''  Afterwards, we tried to work out the remaining parts, just for the completeness of a long research journey.  It turns out what was needed is the permutations of all WMEs, which is simply the Cartesian self-product $X \times X \times ...$ if we ignore ``replacement'' -- which is okay, if one doesn't mind the same WME matching more than one part of a rule.  The result is Fig. \ref{fig:logic-Transformer-string-diagram}.  Then came the amazing experimental result that it can solve TicTacToe quite efficiently.
+The next step would be to match WMEs (Working Memory Elements, ie, propositions) to rule arguments.  This is the point when we stopped and submitted our last paper, which was rejected.  We concluded that WME matching was too complicated, and the traditional Transformer, as a distorted form of logic rules, somehow does the job equivalently, and may be even superior due to ``distributive representations.''  Afterwards, we tried to work out the remaining parts, just for the completeness of a long research journey.  It turns out what was needed is the permutations of all WMEs, which is simply the Cartesian self-product $X \times X \times ...$ if we ignore ``replacement'' -- which is okay, if one doesn't mind the same WME matching more than one part of a rule.  The result is Fig. \ref{fig:logic-Transformer-string-diagram}.  Then came the amazing experimental result that it can solve TicTacToe quite efficiently.  Further testing confirmed that it can solve natural-language test suites with orders of magnitude fewer parameters than traditional Transformers (Fig \ref{fig:experiments}).  We attribute this efficiency to the logic structure inherent in the Logic Transformer neural network.
+
 \begin{figure}
 	\hspace{-1.5cm}
-	\includegraphics[scale=.6]{logic-Transformer-string-diagram-4b.png}
+	\includegraphics[scale=.5]{logic-Transformer-string-diagram-4b.png}
 	\caption{String-diagram of the Logic Transformer.}
 	\label{fig:logic-Transformer-string-diagram}
 \end{figure}
+
+\begin{figure}
+	\includegraphics[scale=.4]{parameter_efficiency_comparison.png}
+	\caption{Experiment results demonstrating superior compression ratios.}
+	\label{fig:experiments}
+\end{figure}
+
+\subsection{Source code and experiments}
+
+We went through 3 stages of experiments:
+\begin{center}
+\begin{tabular}{|c|p{8cm}|p{4cm}|}
+	\hline
+	1 & TicTacToe experiments with traditional neural nets and Transformers & \texttt{RL-TTT-experiments} \\
+	\hline
+	2 & TicTacToe experiments with Logic Transformer & \texttt{logic-autoencoder-TTT} \\
+	\hline
+	3 & AGI experiments with bAbI and Tiny Stories & \texttt{AGI-experiments} \\
+	\hline
+\end{tabular}
+\end{center}
+All source code is under Creative Commons Zero-1.0 license and can be accessed from \texttt{http://github.com/Cybernetic1/}\{insert name\}.  Readers can use Copilot to ask questions about our code and even contribute new material; Feel free to contact the author for assistance.
+
+\subsection{On the algebraic structure of logic and string diagrams}
+
+A natural question arises whether it is possible to simplify the string diagram (Fig. \ref{fig:logic-Transformer-string-diagram}) to make it computationally more efficient.  Some prior research has been done in this direction.
 
 %but the rule (\ref{eqn:differentiable-variable-slots}) neglected the fact that the variables in each $\mathsf{father}$ atom must match their variables with each other (a situation well-known in classical logic-based AI).  This means we have to programmatically feed all \textit{pairs} of Working-Memory atoms, ie. the Cartesian product $A \times A$, into the above string diagram.  That makes it different from the Transformer which takes its input in plain form.  The reason why Transformer can do that is because it has many \textbf{layers}, and the matching of $A \times A$ can be achieved over these layers.
 
