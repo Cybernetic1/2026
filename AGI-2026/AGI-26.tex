@@ -484,7 +484,7 @@ The next step would be to match WMEs (Working Memory Elements, ie, propositions)
 
 \begin{figure}
 	\includegraphics[scale=.4]{parameter_efficiency_comparison.png}
-	\caption{Experiment results demonstrating superior compression ratios.}
+	\caption{Superior compression ratio, Logic Transformer vs traditional.}
 	\label{fig:experiments}
 \end{figure}
 
@@ -507,6 +507,8 @@ All source code is under Creative Commons Zero-1.0 license and can be accessed f
 \subsection{On the algebraic structure of logic and string diagrams}
 
 A natural question arises whether it is possible to simplify the string diagram (Fig. \ref{fig:logic-Transformer-string-diagram}) to make it computationally more efficient.  Some prior research has been done in this direction.
+
+The modern approach to describing the structure of logic is via categorical logic \cite{Jacobs1999} \cite{Lambek1986}, where logic structure is encapsulated as a CCC (Cartesian closed category) or topos.  This approach has the Curry-Howard correspondence \cite{Sorensen2006} at its core.  A parallel approach is based on relation algebra and leads to the notion of allegories.
 
 %but the rule (\ref{eqn:differentiable-variable-slots}) neglected the fact that the variables in each $\mathsf{father}$ atom must match their variables with each other (a situation well-known in classical logic-based AI).  This means we have to programmatically feed all \textit{pairs} of Working-Memory atoms, ie. the Cartesian product $A \times A$, into the above string diagram.  That makes it different from the Transformer which takes its input in plain form.  The reason why Transformer can do that is because it has many \textbf{layers}, and the matching of $A \times A$ can be achieved over these layers.
 
