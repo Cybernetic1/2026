@@ -1,0 +1,84 @@
+% 保存为 attention_smc_vs_cc.tex，使用 pdflatex / xelatex 编译
+\documentclass[tikz,border=12pt]{standalone}
+\usepackage{amsmath, amssymb}
+\usetikzlibrary{calc, positioning, arrows.meta, decorations.pathreplacing}
+
+\usepackage[CJKspace]{xeCJK}
+\setCJKmainfont[Path={/usr/share/fonts/truetype/Alibaba PuHuiTi/}, BoldFont=Alibaba_PuHuiTi_Regular.ttf, ItalicFont=ukai.ttc]{Alibaba_PuHuiTi_Light.ttf}
+
+\begin{document}
+\begin{tikzpicture}[
+  >=Stealth,
+  wire/.style={thick, black},
+  box/.style={draw, minimum width=1.2cm, minimum height=0.8cm, fill=blue!10, align=center},
+  cap/.style={thick, red},
+  label/.style={font=\small, text=black},
+  comment/.style={font=\footnotesize, text=gray!70, align=center},
+  scale=1.05
+]
+
+% ================= 左：纯 SMC 尝试（失败） =================
+\begin{scope}[shift={(-5,0)}]
+  \node[label, font=\bfseries] at (0,6) {纯 SMC：无法表达注意力};
+
+  % 三条刚性平行线
+  \draw[wire] (-1.2,3.8) node[above] {$Q$} -- (-1.2,1.2);
+  \draw[wire] (0,3.8)   node[above] {$K$} -- (0,1.2);
+  \draw[wire] (1.2,3.8) node[above] {$V$} -- (1.2,1.2);
+
+  % 黑盒（SMC 只能将它们视为并行张量）
+  \node[box] (smc_box) at (0,0.4) {Attention?};
+  \draw[wire] (-1.2,1.2) -- (smc_box.north west);
+  \draw[wire] (0,1.2)    -- (smc_box.north);
+  \draw[wire] (1.2,1.2)  -- (smc_box.north east);
+  \draw[wire] (smc_box.south) -- ++(0,-1.2) node[below] {Out};
+
+  % 标注限制
+  \draw[decorate, decoration={brace, amplitude=6pt, mirror}, thick, red]
+    (-1.5,3.9) -- (1.5,3.9) node[midway, above=6pt, red, font=\bfseries] {仅能并行放置 $Q\otimes K\otimes V$};
+  \node[comment, text=red] at (0,-2.5)
+    {⚠ SMC 缺少对偶与弯曲结构，无法表达 $Q^\top K$ 的指标收缩；\\注意力退化为“黑盒”态射，等价性与分解不可控。};
+\end{scope}
+
+% ================= 右：紧致闭 SMC 表达（成功） =================
+\begin{scope}[shift={(5,0)}]
+  \node[label, font=\bfseries] at (0,6) {紧致闭 SMC：自然表达注意力};
+
+  % Q 与 K 进入，特征维 D 弯曲配对
+  \draw[wire] (-1.2,3.8) node[above] {$Q$} -- (-1.2,2.2);
+  \draw[wire] (0,3.8)   node[above] {$K$} -- (0,2.2);
+  \draw[wire] (1.2,3.8) node[above] {$V$} -- (1.2,1.0);
+
+  % Cap 收缩 Q 与 K 的特征维
+  \draw[cap=round] (-1.2,2.2) .. controls (-1.2,1.6) and (-0.4,1.4) .. (0,1.4);
+  \draw[cap=round] (0,2.2)    .. controls (0,1.6)   and (-0.4,1.4) .. (-0.4,1.4) node[midway, left, red] {$\epsilon_D$};
+  \node[label] at (-1.6,1.4) {收缩 $D$};
+
+  % 注意力权重线（序列维 N）
+  \draw[wire] (-0.6,1.4) -- (-0.6,0.6);
+  \node[box] (softmax) at (-0.6,0.1) {softmax};
+  \draw[wire] (-0.6,0.6) -- (softmax.north);
+  \draw[wire] (softmax.south) -- ++(0,-0.5) node[midway, right, font=\small] {权重 $A$};
+
+  % 权重 A 与 V 通过另一个 cap 聚合
+  \draw[cap=round] (softmax.south) .. controls (-0.6,-1.0) and (0.6,-1.2) .. (1.2,-1.2);
+  \draw[cap=round] (1.2,1.0)    .. controls (1.2,-0.2) and (0.6,-1.2) .. (0.6,-1.2) node[midway, right, red] {$\epsilon_N$};
+  \node[label] at (0.9,-1.2) {加权聚合};
+
+  % 输出
+  \draw[wire] (0.9,-1.2) -- ++(0,-1.2) node[below] {Out};
+
+  % 标注优势
+  \draw[decorate, decoration={brace, amplitude=6pt}, thick, blue!70!black]
+    (-1.5,3.9) -- (1.5,3.9) node[midway, above=6pt, blue!70!black, font=\bfseries] {弯曲 $\Rightarrow$ 指标升降/收缩};
+
+  \node[comment, text=blue!70!black] at (0,-3.5)
+    {✅ $\epsilon$ 显式表达 $Q^\top K$ 与 $AV$ 的收缩；\\拓扑滑动自动保持 $S_n$ 置换等变性；\\结构完全可分解、可重写。};
+\end{scope}
+
+% ================= 中间分隔与对比箭头 =================
+\draw[thick, dashed, gray] (0,-2.5) -- (0,4.5);
+\node[font=\small, gray] at (0,4.7) {SMC 基底 $\oplus$ 紧致闭结构};
+
+\end{tikzpicture}
+\end{document}
