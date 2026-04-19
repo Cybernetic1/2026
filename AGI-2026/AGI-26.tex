@@ -551,17 +551,30 @@ From a \textbf{functorial} point of view (eg.\cite{Crescenzi2024} \cite{Abbott20
 
 \section{Additional Features and Enhancements}
 
-\textbf{Davidsonian grammar.}
+If the reader is familiar with classical logic-based AI (or the ``neo-classical'' OpenCog or OpenNARS), and if you understand our main innovation, the Logic Transformer, as a differentiable ``rules-base,'' then you would have no problem seeing many natural developments that follow from it.  If we were to explain them in detail, this paper would blow up to book-length.  Instead we just list some new features briefly:
+\begin{center}
+	\small
+	\hspace*{-1.5cm}
+\begin{tabular}{|p{2.5cm}|p{12cm}|}
+	\hline \textbf{Vector\newline quantization\newline (VQ) of\newline propositions} & Seems to be a nice trick, introduced by Copilot without the author's permission.  It is a well-known problem in RL that the action space is often too large to be computationally tractable; in the AGI case that action space is the space of all possible / imaginable propositions.  Copilot claims that they can be compressed into 8K propositions using a VQ code book.  When asked, it explains that it is not 8K distinct propositions, but propositional patterns (see doc \#61).  Examples like this make us suspect that Copilot is already capable of developing AGI with just a modicum of human guidance. \\
 
-\noindent \textbf{Reflection.}
+	\hline \textbf{Hybrid\newline architecture\newline with symbolic\newline logic engine} & As our differentiable logic rules become cleanly separable entities, the neural network can easily co-operate with a traditional symbolic inference engine. With a layer of adaptation, it can work with OpenCog/NARS.  What advantages will it bring?  One example is the ability to quickly incorporate new knowledge into the thinking process. For example, when told that for an Abelian group, $a \cdot b = b \cdot a$, an LLM first places this fact into Working Memory (ie. the prompt), and this may cause the algebraic rule to be applied to new inputs, but this happens through an opaque process, known as long-range dependency, in traditional Transformers. With a symbolic logic engine, the fact $a \cdot b = b \cdot a$ can be directly translated into a logic rule and be immediately applicable. \\
 
-\noindent \textbf{Reification.}
+	\hline \textbf{neo-Davidsonian grammar} & A logical form in linguistics, based on events. For example loves(John,Mary) would be loves($e$) $\wedge$ Agent($e$,John) $\wedge$ Patient($e$,Mary) where $e$ is an event. This technique was also suggested by Copilot and adopted by the author. \\
 
-\noindent \textbf{HOL.}
+	\hline \textbf{Representation\newline of Working\newline Memory (WM)} & One of the key design choices of an AGI is its representation of WM.  OpenCog proposes a hypergraph structure. We explored this issue at length with Copilot. \\
 
-\noindent \textbf{Horn form.}
+	\hline \textbf{Reflection} & \\
 
-\noindent \textbf{Vector Quantization.}
+	\hline \textbf{Reification} & \\
+
+	\hline \textbf{HOL} & \\
+
+	\hline \textbf{Horn form} & A logic rule of the form $X \wedge Y \wedge W \wedge ... \rightarrow Z$.  Sort of a relic from the past, it makes the implementation of classical symbolic engines easier, eg. PROLOG. Some discussions with Copilot suggest that it is no longer needed; a rule can have multiple heads. \\
+
+	\hline
+\end{tabular}
+\end{center}
 
 \section{Conclusion}
 
