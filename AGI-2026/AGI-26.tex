@@ -417,8 +417,8 @@ Furthering the idea, the matching (or \textbf{unification}) of variables makes u
 \tikzmark{Z3} \fcolorbox{gray!30}{white}{}
 \\
 \label{eqn:differentiable-variable-slots}
-& \qquad w_{ij}^k \\
-& \hspace{8.4cm} \hat{w}^k_\ell  \nonumber \\
+& \hspace{-0.2cm} \hat{W} = [ \hat{w}_{ij}^k ] \\
+& \hspace{7.4cm} \check{W} = [ \check{w}^\ell_k ] \nonumber \\
 & \logic{father}(\tikzmark{X11} x_{11}, \tikzmark{X12} x_{12}, \tikzmark{X13} {-}_{13}) \wedge
 \logic{father}(\tikzmark{X21} {-}_{21}, \tikzmark{X22} x_{22}, \tikzmark{X23} x_{23}) \rightarrow \logic{grand\hbox{-}father}(\tikzmark{X1} x_1, \tikzmark{X2} {-}_2, \tikzmark{X3} x_3) .
 \nonumber
@@ -450,41 +450,129 @@ Furthering the idea, the matching (or \textbf{unification}) of variables makes u
 \draw (pic cs:Z3) +(6pt,-7pt) -- ($ (pic cs:X1) +(7pt,10pt) $);
 \draw (pic cs:Z3) +(6pt,-7pt) -- ($ (pic cs:X2) +(7pt,10pt) $);
 \draw (pic cs:Z3) +(6pt,-7pt) -- ($ (pic cs:X3) +(7pt,10pt) $);
-\draw[->,dotted] (pic cs:Y3) +(27pt,5pt) to [midway,sloped,"move"] ($ (pic cs:Z1) +(-3pt,0pt) $);
+\draw[->,dotted] (pic cs:Y3) +(27pt,5pt) to [midway,sloped,"move to"] ($ (pic cs:Z1) +(-3pt,0pt) $);
 \end{tikzpicture}
 \end{align}
 %\begin{equation}
 %\hat{x}^k \mathrel{:}= \underset{\text{predicates}}{\forall i \in} \; \underset{\text{arguments}}{\forall j \in} \left\langle \mathrm{soft}\max_{ij} w_{ij}^k \; , \; x_{ij} \right\rangle
 %\end{equation}
-Interestingly, substitution / unification has a form very similar to \textbf{Self-Attention} except for the order of softmax and tensor product (with neural string-diagrams on the right):
+Interestingly, substitution / unification has a form very similar to \textbf{Self-Attention} except for the order of softmax and tensor product (with neural string-diagrams explained in the next section):
 %\begin{equation}
 %\text{Attention}(\mathbf{Q,K,V}) = \text{soft}\max  \frac{\langle \mathbf{Q,K} \rangle}{\sqrt{d_k}} \mathbf{V}
 %\end{equation}
 \begin{equation}
 \begin{aligned}
+\label{eqn:attention-string-diagrams}
 	% \hat{x}^k \mathrel{:}= \underset{\substack{i \in \text{predicates} \\
 	%	j \in \text{arguments}}}{\mathlarger{\forall}} \; \left\langle \mathrm{soft}\max_{ij} w_{ij}^k \; , \; x_{ij} \right\rangle
-	Z \mathrel{:}= \sigmoid \hat{W} \otimes \left( \sigmoid W \; \otimes \; X \right)
+	Z \mathrel{:}= \sigmoid \check{W} \otimes \left( \sigmoid \hat{W} \otimes X \right)
 	\qquad
-	\vcenter{\hbox{\includegraphics[scale=0.4]{substitution-string-diagram.png}}}
+	\def \globalscale {0.4}
+	\vcenter{\hbox{\begin{tikzpicture}[y=1pt, x=1pt, yscale=\globalscale,xscale=\globalscale, every node/.append style={scale=\globalscale}, inner sep=0pt, outer sep=0pt]
+	\begin{scope}[shift={(-115.59316, 283.87838)}]
+		\path[draw=black,line width=0.8pt] (137.10858, -254.31339) -- (358.01601, -254.31339);
+
+		\path[draw=black,line width=0.8pt] (137.32536, -153.20368) -- (244.69474, -153.20368).. controls (320.66437, -152.86162) and (318.7147, -271.01124) .. (245.63945, -271.5473) -- (186.27009, -271.5473);
+
+		\path[draw=black,line width=0.8pt] (358.69474, -222.80075) -- (137.60239, -222.80075);
+
+		\path[draw=black,line width=0.8pt] (137.93392, -204.9619) -- (222.34139, -204.9619).. controls (231.27231, -204.9619) and (238.46219, -197.77202) .. (238.46219, -188.8411) -- (238.46219, -187.64698).. controls (238.46219, -178.71606) and (231.27231, -171.52618) .. (222.34139, -171.52618) -- (138.21151, -171.52618);
+
+		\path[draw=black,line width=0.8pt,->] (238.40059, -188.98504) -- (252.76995, -188.98504);
+
+		\path[draw=black,line width=0.8pt,->] (301.05457, -209.88868) -- (315.42393, -209.88868);
+
+		\path[draw=black,line width=0.8pt] (137.32536, -271.70366) -- (181.69471, -271.70366);
+
+		\path[draw=black,fill=white,line width=0.8pt] (196.87486, -259.50278) -- (196.87486, -283.50282) -- (177.37495, -271.5028) -- cycle;
+
+		\path[draw=black,fill=white,line width=0.8pt] (198.11309, -159.66386) -- (198.11309, -183.6639) -- (178.61318, -171.66388) -- cycle;
+
+		\node[text=black,scale=2.8] at (123.30065, -158) {$\hat{W}$};
+		\node[text=black,scale=2.8] at (122.17566, -213) {$X$};
+		\node[text=black,scale=2.8] at (123.11316, -260) {$\check{W}$};
+
+		\node[text=gray,scale=2] at (150, -145.84607) {$k$};
+		\node[text=gray,scale=2] at (150, -163.22642) {$ij$};
+		\node[text=gray,scale=2] at (150, -195.47644) {$ij$};
+		\node[text=gray,scale=2] at (150, -215.16393) {$d$};
+		\node[text=gray,scale=2] at (150, -245.16392) {$\ell$};
+		\node[text=gray,scale=2] at (150, -264.66393) {$k$};
+
+		\node[text=gray,scale=2] at (351.11322, -215.53932) {$d$};
+		\node[text=gray,scale=2] at (351.11322, -247.03913) {$\ell$};
+
+		\node[text=black,scale=1.6] at (190, -190.97644) {\textsf{Softmax}};
+		\node[text=black,scale=1.6] at (190, -240.97644) {\textsf{Softmax}};
+
+		\node[text=black,scale=1.6,align=center] at (270, -188) {\textsf{Mat}\\[-0.6em] \textsf{Mul}};
+		\node[text=black,scale=1.6,align=center] at (331, -205) {\textsf{Mat}\\[-0.6em] \textsf{Mul}};
+	\end{scope}
+	\end{tikzpicture}}}
 	\\
-	\alpha \mathrel{:}= \sigmoid \frac{\langle XW^Q, XW^K \rangle}{\sqrt{d_k}} XW^V .
+	\alpha \mathrel{:}= \left( \sigmoid \frac{\langle Q, K \rangle}{\sqrt{d_k}} \right) V
 	\qquad
-	\vcenter{\hbox{\includegraphics[scale=0.4]{Attention-string-diagram.png}}}
+	\def \globalscale {0.4}
+	\vcenter{\hbox{\begin{tikzpicture}[y=1pt, x=1pt, yscale=\globalscale,xscale=\globalscale, every node/.append style={scale=\globalscale}, inner sep=0pt, outer sep=0pt]
+	\begin{scope}[shift={(-115.61316, 284.91126)}]
+		\path[draw=black,line width=0.8pt] (137.10858, -267.14599) -- (323.51601, -267.14599).. controls (332.44696, -267.14599) and (339.63681, -261.45612) .. (339.63681, -252.5252) -- (339.63681, -251.33108).. controls (339.63681, -242.40016) and (332.44696, -235.21028) .. (323.51601, -235.21028) -- (279.88614, -235.21028);
+
+		\path[draw=black,line width=0.8pt] (137.32536, -166.03628) -- (340.69473, -166.03628).. controls (419.47129, -165.99263) and (386.95878, -264.7707) .. (423.75002, -264.87989) -- (447.11938, -264.87989);
+
+		\path[draw=black,line width=0.8pt] (137.32536, -235.63335) -- (166.4177, -235.63335).. controls (188.29528, -235.44173) and (178.67567, -217.85539) .. (200.93392, -217.7945) -- (222.34139, -217.7945).. controls (231.27231, -217.7945) and (238.46218, -210.60462) .. (238.46218, -201.6737) -- (238.46218, -200.47958).. controls (238.46218, -191.54866) and (231.27231, -184.35878) .. (222.34139, -184.35878) -- (138.21151, -184.35878)(265.69473, -235.63335) -- (200.60238, -235.63335).. controls (175.60248, -235.58176) and (191.56407, -217.84) .. (167.11898, -217.7945) -- (138.21151, -217.7945);
+
+		\path[draw=black,line width=0.8pt,->] (238.40058, -201.81764) -- (306.76995, -201.81764);
+
+		\path[draw=black,line width=0.8pt,->] (340.12491, -252.55318) -- (354.49427, -252.55318);
+
+		\path[draw=black,line width=0.8pt] (137.32536, -284.53626) -- (447.19472, -284.53626);
+
+		\path[draw=black,fill=white,line width=0.8pt] (285.37483, -223.58534) -- (285.37483, -247.58538) -- (265.87492, -235.58536) -- cycle;
+
+		\node[text=black,scale=2.8] at (123.30065, -174.74652) {$Q$};
+		\node[text=black,scale=2.8] at (122.17566, -225.37154) {$K$};
+		\node[text=black,scale=2.8] at (123.11316, -276.93403) {$V$};
+
+		\node[text=gray,scale=2] at (148, -158.67867) {$y$};
+		\node[text=gray,scale=2] at (148, -176.05902) {$d$};
+		\node[text=gray,scale=2] at (148, -208.30904) {$x$};
+		\node[text=gray,scale=2] at (148, -227.99653) {$d$};
+		\node[text=gray,scale=2] at (148, -257.99652) {$x$};
+		\node[text=gray,scale=2] at (148, -277.49653) {$d$};
+
+		\node[text=gray,scale=2] at (249.11315, -158.62153) {$y$};
+		\node[text=gray,scale=2] at (249.11315, -228.37153) {$x$};
+
+		\node[text=black,scale=1.6] at (206.11315, -202.30903) {\textsf{MatMul}};
+		\node[text=black,scale=1.6] at (278.61316, -182.62154) {\textsf{Scale}  $* \sqrt{d}$};
+		\node[text=black,scale=1.6] at (261.48817, -255.37153) {\textsf{Softmax}};
+
+		\node[text=gray,scale=2] at (309.86317, -228.37153) {$x$};
+		\node[text=gray,scale=2] at (309.86317, -260.62152) {$x$};
+
+		\node[text=gray,scale=2] at (435, -256.87157) {$y$};
+		\node[text=gray,scale=2] at (435, -274.87154) {$d$};
+
+		\node[text=black,scale=1.6] at (369.73814, -234.74651) {\textsf{MatMul}};
+	\end{scope}
+\end{tikzpicture}}}
 \end{aligned}
 \end{equation}
-The next step would be to match WMEs (Working Memory Elements, ie, propositions) to rule arguments.  This is the point when we stopped and submitted our last paper, which was rejected.  We concluded that WME matching was too complicated, and the traditional Transformer, as a distorted form of logic rules, somehow does the job equivalently, and may be even superior due to ``distributive representations.''  Afterwards, we tried to work out the remaining parts, just for the completeness of a long research journey.  It turns out what was needed is the permutations of all WMEs, which is simply the Cartesian self-product $X \times X \times ...$ if we ignore ``replacement'' -- which is okay, if one doesn't mind the same WME matching more than one part of a rule.  The result is Fig. \ref{fig:logic-Transformer-string-diagram}.  Then came the amazing experimental result that it can solve TicTacToe quite efficiently.  Further testing confirmed that it can solve natural-language test suites with orders of magnitude fewer parameters than traditional Transformers (Fig \ref{fig:experiments}).  We attribute this efficiency to the logic structure inherent in the Logic Transformer neural network.
+
+The next step would be to match WMEs (Working Memory Elements, ie, propositions) to rule arguments.  This is the point when we stopped and submitted our last paper, which was rejected.  We concluded that WME matching was too complicated, and the traditional Transformer, as a distorted form of logic rules, somehow does the job equivalently, and may be even superior due to ``distributive representations.''  Afterwards, we tried to work out the remaining parts, just for the completeness of a long research journey.  It turns out what was needed is the permutations of all WMEs, which is simply the Cartesian self-product $X^{\times n}$ if we ignore ``replacement'' -- which is okay, if one doesn't mind the same WME matching more than one part of a rule.  The result is Fig. \ref{fig:logic-Transformer-string-diagram}.  Then came the amazing experimental result that it can solve TicTacToe quite efficiently.  Further testing confirmed that it can solve natural-language tests with 10x fewer parameters than traditional Transformers (Fig \ref{fig:experiments}L).  We attribute this efficiency to the logic structure inherent in the Logic Transformer neural network.
 
 \begin{figure}
-	\hspace{-1.5cm}
+	\hspace{-0.5cm}
 	\includegraphics[scale=.5]{logic-Transformer-string-diagram-4b.png}
 	\caption{String-diagram of the Logic Transformer.}
 	\label{fig:logic-Transformer-string-diagram}
 \end{figure}
-
 \begin{figure}
-	\includegraphics[scale=.4]{parameter_efficiency_comparison.png}
-	\caption{Superior compression ratio, Logic Transformer vs traditional.}
+	\includegraphics[scale=.25]{parameter_efficiency_comparison.png}
+	\quad
+	\raisebox{0.6cm}{
+	\includegraphics[scale=.32]{Halmos-nutshell.png}}
+	\caption{(Left) Compression ratio, Logic Transformer vs traditional. (Right) Paul Halmos' lifting of propositional logic to predicate logic.}
 	\label{fig:experiments}
 \end{figure}
 
@@ -506,7 +594,7 @@ All source code is under Creative Commons Zero-1.0 license and can be accessed f
 
 \subsection{On the algebraic structure of logic and string diagrams}
 
-A natural question arises whether it is possible to simplify the string diagram (Fig. \ref{fig:logic-Transformer-string-diagram}) to make it computationally more efficient.  Some prior research has been done in this direction.
+A natural question arises whether it is possible to simplify the string diagram (Fig. \ref{fig:logic-Transformer-string-diagram}) to make it computationally more efficient.  Some prior research has been done in this direction. The diagrams in equation (\ref{eqn:attention-string-diagrams}) are \textbf{Functor String Diagrams} as described in \cite{Abbott2024}. They have the advantage of keeping track of dimensions of tensors as well as preserving equivariant structure -- these seem to be all we need.
 
 The modern approach to describing the structure of logic is via categorical logic \cite{Jacobs1999} \cite{Lambek1986}, where logic structure is encapsulated as a CCC (Cartesian closed category) or topos.  This approach has the Curry-Howard correspondence \cite{Sorensen2006} at its core.  A parallel approach is based on relation algebra and leads to the notion of allegories.
 
