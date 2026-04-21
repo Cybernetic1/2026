@@ -20,6 +20,8 @@
 %\usepackage{color}
 %\renewcommand\UrlFont{\color{blue}\rmfamily}
 
+\usepackage{longtable}
+
 \usepackage{amsmath}
 \usepackage{amssymb}    % for \rightsquigarrow
 \usepackage{wasysym}	% for frown face
@@ -74,7 +76,7 @@
 
 \begin{document}
 %
-\title{Logic is the Beginning of Wisdom}
+\title{Introducing Logic Transformer}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -94,7 +96,7 @@
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-... not the end of it; so said Spock in a 1991 Star Trek movie. This paper introduces Logic Transformer, a differentiable neural network that explicitly performs classical symbolic logic inference (with rules matching, substitutions, etc).  Preliminary experiments show that it achieves a very high compression ratio (ie fewer parameters) and also seems to train faster as a consequence.  From the ``No Free Lunch'' perspective this suggests that algebraic/categorical structure of logic is suitable for compressing our world (as Wittgenstein says, logic is a mirror-image of the world).  A high compression ratio forces the knowledge contained in our neural network to attain ``logic coherence'', which we believe is the antidote to hallucinations.  The explicit logic structure also opens the ``black boxes'' of neural networks for inspection and interpretation.  Moreover, it allows to use a classical symbolic logic inference engine (eg. OpenCog, OpenNARS) side-by-side with our neural network in a hybrid architecture, that may offer advantages we are only beginning to explore.  For all these implications, we claim that this is a key innovation that solves the AGI problem.
+Logic Transformer is a differentiable neural network that explicitly performs classical symbolic logic inference (with rules matching, substitutions, etc).  Preliminary experiments show that it achieves a very high compression ratio (ie fewer parameters) and also seems to train faster as a consequence.  From the ``No Free Lunch'' perspective this suggests that algebraic/categorical structure of logic is suitable for compressing our world (as Wittgenstein says, logic is a mirror-image of the world).  A high compression ratio forces the knowledge contained in our neural network to attain ``logic coherence'', which we believe is the antidote to hallucinations.  The explicit logic structure also opens the ``black boxes'' of neural networks for inspection and interpretation.  Moreover, it allows to use a classical symbolic logic inference engine (eg. OpenCog, OpenNARS) side-by-side with our neural network in a hybrid architecture, that may offer advantages we are only beginning to explore.  For all these implications, we claim that this is a key innovation that solves the AGI problem.
 
 \keywords{logic-based AI \and neural-symbolic integration \and LLMs (large language models)}
 \end{abstract}
@@ -228,63 +230,63 @@ Two types of architectures are possible (fig. \ref{fig:types-T-and-W}), where a 
 
 % \textbf{The hallucination problem.}  The significance of combining RL and LLM is such that the system can \textit{think in loops}.  Reward maximization in the RL loop forces better thoughts to win, ie. those thoughts that are logically coherent with the rest of the learned knowledge.  This solves the problem of ``hallucinations'' when LLMs are just parroting human speech.  % This would   The remaining question is how to train the Type L model \textit{efficiently}, but this is more of an engineering rather than theoretical problem.
 
-As we know, LLMs predict the next word per each iteration.  % The number of possible natural-language sentences is an astronomical figure (if not $\infty$), so it is infeasible in practice to represent probability distributions over this set.  However, as vocabulary size is finite, the conditional probabilities $\mathbb{P}$(next word | prior words, context) are manageable.  % This part of LLMs efficiency -- by exploiting the decomposition of sentences into words.
+% As we know, LLMs predict the next word per each iteration.  % The number of possible natural-language sentences is an astronomical figure (if not $\infty$), so it is infeasible in practice to represent probability distributions over this set.  However, as vocabulary size is finite, the conditional probabilities $\mathbb{P}$(next word | prior words, context) are manageable.  % This part of LLMs efficiency -- by exploiting the decomposition of sentences into words.
 %For a long time I tried to analyze the Transformer (Self Attention) from a symbolic-logic point of view, but did not know how to interpret the meaning of \textbf{tokens} -- do they correspond to logic propositions, or to sub-propositional symbols?  The question is how to reconcile these two views:
-For a long time I have been trying to reconcile the following two views:
-\begin{equation}
-	\nonumber
-	\hspace{-1cm} \begin{tikzpicture}[align=center, every path/.style={thick}]
-		\node[text width=100pt] at (-5.5, 0) {\textbf{current\\LLMs}};
+% For a long time I have been trying to reconcile the following two views:
+%\begin{equation}
+%	\nonumber
+%	\hspace{-1cm} \begin{tikzpicture}[align=center, every path/.style={thick}]
+%		\node[text width=100pt] at (-5.5, 0) {\textbf{current\\LLMs}};
+%
+%		\node (inputs1) [] at (-3,0) {prior words};
+%		\node (KB1) [draw,thick,cylinder,shape aspect=0.1,shape border rotate=90,text width=60pt] at (0,0) {layers of\\Transformers};
+%		\node (outputs1) [] at (3,0) {next word};
+%
+%		\draw[->] (inputs1) edge (KB1) (KB1) -- (outputs1);
+%
+%		% -------------------------------
+%
+%		\node[text width=100pt] at (-5.5, -1.5) {\textbf{symbolic AI}\\eg. OpenCog,\\OpenNARS};
+%
+%		\node (inputs2) [] at (-2.5,-1.5) {propositions in\\working memory};
+%		\node (KB2) [draw,thick,cylinder,shape aspect=0.15,shape border rotate=90,text width=30pt] at (0.5,-1.5) {logic\\rules};
+%		\node (outputs2) [] at (3,-1.5) {inferred\\proposition};
+%
+%		\draw[->] (inputs2) edge (KB2) (KB2) -- (outputs2);
+%	\end{tikzpicture}
+%\end{equation}
+%until I had the insight that a logic-based system could output a proposition to rewrite part of a linguistic tree or graph, similar to the LLM outputting the next word to complete a sentence.
 
-		\node (inputs1) [] at (-3,0) {prior words};
-		\node (KB1) [draw,thick,cylinder,shape aspect=0.1,shape border rotate=90,text width=60pt] at (0,0) {layers of\\Transformers};
-		\node (outputs1) [] at (3,0) {next word};
+% This leads us to the following basic architecture, which is also the setup proposed by Goertzel in \cite{Goertzel2021}:
+%\vspace{-0.5cm}
+%\begin{equation}
+%	\label{fig:KR-rewriting}
+%	\begin{tikzpicture}[baseline=(current bounding box.center), every path/.style={thick}]
+%
+%		\node[rectangle, align=center, text depth=5pt, anchor=west, text width=100pt] at (-3.5, 0.2) {\small\textbf{KR\\structure}};
+%
+%		\node[] at (-2.5, 0) {\Huge $\big($};
+%		\node[] (KR) at (0,0) {\includegraphics[scale=0.5]{KR-structure.png}};
+%		\node[] at (1, 0) {\Huge $\big)$};
+%
+%		\node at (1.3,0) (here) {};
+%		\draw [->] (here) to[out=60, in=-60, looseness=10, "rewrite"] (here);
+%	\end{tikzpicture}
+%\end{equation}
 
-		\draw[->] (inputs1) edge (KB1) (KB1) -- (outputs1);
-
-		% -------------------------------
-
-		\node[text width=100pt] at (-5.5, -1.5) {\textbf{symbolic AI}\\eg. OpenCog,\\OpenNARS};
-
-		\node (inputs2) [] at (-2.5,-1.5) {propositions in\\working memory};
-		\node (KB2) [draw,thick,cylinder,shape aspect=0.15,shape border rotate=90,text width=30pt] at (0.5,-1.5) {logic\\rules};
-		\node (outputs2) [] at (3,-1.5) {inferred\\proposition};
-
-		\draw[->] (inputs2) edge (KB2) (KB2) -- (outputs2);
-	\end{tikzpicture}
-\end{equation}
-until I had the insight that a logic-based system could output a proposition to rewrite part of a linguistic tree or graph, similar to the LLM outputting the next word to complete a sentence.
-
-This leads us to the following basic architecture, which is also the setup proposed by Goertzel in \cite{Goertzel2021}:
-\vspace{-0.5cm}
-\begin{equation}
-	\label{fig:KR-rewriting}
-	\begin{tikzpicture}[baseline=(current bounding box.center), every path/.style={thick}]
-
-		\node[rectangle, align=center, text depth=5pt, anchor=west, text width=100pt] at (-3.5, 0.2) {\small\textbf{KR\\structure}};
-
-		\node[] at (-2.5, 0) {\Huge $\big($};
-		\node[] (KR) at (0,0) {\includegraphics[scale=0.5]{KR-structure.png}};
-		\node[] at (1, 0) {\Huge $\big)$};
-
-		\node at (1.3,0) (here) {};
-		\draw [->] (here) to[out=60, in=-60, looseness=10, "rewrite"] (here);
-	\end{tikzpicture}
-\end{equation}
-
-One way to define a rewrite rule \cite{Kennaway1993} is as a pair of morphisms $L \leftarrow K \rightarrow R$, $L$ and $R$ are the left and right hand sides, and $K$ is the interface graph.  $G$ is the input graph and $H$ is the result of rewriting.  The effect is that the part of $L$ outside $K$ is deleted from $G$ and is replaced by the part of $R$ outside $K$:
-\begin{equation}
-	\label{eqn:rewrite-rule}
-	\begin{tikzcd}
-		L \arrow[d] & K \arrow[l] \arrow[d] \arrow[r] & R \arrow[d] \\
-		G & D \arrow[l] \arrow[r] & H
-	\end{tikzcd}
-\end{equation}
-This occurs in a category where graphs are objects and homomorphisms define some notion of ``matching''.  Now if we imagine a \textbf{differentiable} version of rewriting rules (see (\ref{eqn:differentiable-variable-slots}) below), all the rules would be represented by a set of parameters $\Theta \in \mathbb{R}^n$, and the parameterized rules \textit{must} cover the entire family of rewrite rules as $\Theta$ vary continuously (in practice, we can limit the rules length to make that possible).  This requires the use of ``\textbf{discretizing}'' functions such as sigmoid and softmax, and may be formulated by a fairly mechanical process.  However, in doing so we have overlooked the possibility that a \textbf{deep} neural network such as Transformer may be able to aggregate all the contents of Working Memory, output some intermediate \textbf{distributive} representations, before finally outputting some discrete tokens.  Such a process would imply $L$ matches the entire input graph $G$ in (\ref{eqn:rewrite-rule}).
+%One way to define a rewrite rule \cite{Kennaway1993} is as a pair of morphisms $L \leftarrow K \rightarrow R$, $L$ and $R$ are the left and right hand sides, and $K$ is the interface graph.  $G$ is the input graph and $H$ is the result of rewriting.  The effect is that the part of $L$ outside $K$ is deleted from $G$ and is replaced by the part of $R$ outside $K$:
+%\begin{equation}
+%	\label{eqn:rewrite-rule}
+%	\begin{tikzcd}
+%		L \arrow[d] & K \arrow[l] \arrow[d] \arrow[r] & R \arrow[d] \\
+%		G & D \arrow[l] \arrow[r] & H
+%	\end{tikzcd}
+%\end{equation}
+%This occurs in a category where graphs are objects and homomorphisms define some notion of ``matching''.  Now if we imagine a \textbf{differentiable} version of rewriting rules (see (\ref{eqn:differentiable-variable-slots}) below), all the rules would be represented by a set of parameters $\Theta \in \mathbb{R}^n$, and the parameterized rules \textit{must} cover the entire family of rewrite rules as $\Theta$ vary continuously (in practice, we can limit the rules length to make that possible).  This requires the use of ``\textbf{discretizing}'' functions such as sigmoid and softmax, and may be formulated by a fairly mechanical process.  However, in doing so we have overlooked the possibility that a \textbf{deep} neural network such as Transformer may be able to aggregate all the contents of Working Memory, output some intermediate \textbf{distributive} representations, before finally outputting some discrete tokens.  Such a process would imply $L$ matches the entire input graph $G$ in (\ref{eqn:rewrite-rule}).
 
 \section{Logic Transformer}
 
-In classical logic-based AI, a single step of inference is a mapping $ \Delta \xmapsto{\kb} \Delta + \delta $ where $\kb$ is a set of logic \textbf{rules} and $\Delta$ is a set of ground propositions or \textbf{facts}.  $\Delta$ also called the state $\vec{x}$ or Working Memory.  ``Set'' implies algebraic structure, ie, permutation invariance of elements.  We recognized early on that this has a connection with the equivariance structure of Self-Attention; but it was not obvious how to extract further algebraic structures from logic and to apply such symmetries; instead, we found a way to actually implement the syntactic process of substitutions and logic-rule applications, so the resulting neural network obviously inherits logic structure implicitly.  A logic rule is a formula with variables such as: %\vspace{0.1cm}
+In classical logic-based AI, a single step of inference is a mapping $ \Gamma \xmapsto{\kb} \Gamma + \delta $ where $\kb$ is a set of logic \textbf{rules} and $\Gamma$ is a set of ground propositions or \textbf{facts}.  $\Gamma$ also called the state $\vec{x}$ or Working Memory.  ``Set'' implies algebraic structure, ie, permutation invariance of elements.  We recognized early on that this has a connection with the \textbf{equivariant} structure of Self-Attention; but it was not obvious how to extract further algebraic structures from logic and to apply such symmetries; instead, we found a way to actually implement the syntactic operations of substitutions and logic-rule matching, so the resulting neural network obviously inherits logic structure implicitly.  A logic rule is a formula with variables such as: %\vspace{0.1cm}
 \begin{equation}
 	\forall X \; \forall Y \; \forall Z.  \quad \text{father}(\tikzmarknode{nX1}{{\color{gray}X}}, \tikzmarknode{nY1}{{\color{gray}Y}}) \wedge \mbox{father}(\tikzmarknode{nY2}{{\color{gray}Y}}, \tikzmarknode{nZ1}{{\color{gray}Z}})
 	\Rightarrow \text{grandfather}(\tikzmarknode{nX2}{{\color{gray}X}}, \tikzmarknode{nZ2}{{\color{gray}Z}})
@@ -559,7 +561,10 @@ Interestingly, substitution / unification has a form very similar to \textbf{Sel
 \end{aligned}
 \end{equation}
 
-The next step would be to match WMEs (Working Memory Elements, ie, propositions) to rule arguments.  This is the point when we stopped and submitted our last paper, which was rejected.  We concluded that WME matching was too complicated, and the traditional Transformer, as a distorted form of logic rules, somehow does the job equivalently, and may be even superior due to ``distributive representations.''  Afterwards, we tried to work out the remaining parts, just for the completeness of a long research journey.  It turns out what was needed is the permutations of all WMEs, which is simply the Cartesian self-product $X^{\times n}$ if we ignore ``replacement'' -- which is okay, if one doesn't mind the same WME matching more than one part of a rule.  The result is Fig. \ref{fig:logic-Transformer-string-diagram}.  Then came the amazing experimental result that it can solve TicTacToe quite efficiently.  Further testing confirmed that it can solve natural-language tests with 10x fewer parameters than traditional Transformers (Fig \ref{fig:experiments}L).  We attribute this efficiency to the logic structure inherent in the Logic Transformer neural network.
+The next step would be to match WMEs (Working Memory Elements, ie, propositions) to rule arguments.  This is the point when we stopped and submitted our last paper, which was rejected.  We concluded that rules matching was too complicated and not worth the trouble. % and the traditional Transformer, as a distorted form of logic rules, somehow does the job equivalently, and may be even superior due to ``distributive representations.''
+It turns out what was needed is the permutation of all WMEs, which is simply the Cartesian self-product $X^{\times n}$. % if we ignore ``replacement'' -- which is okay, if one doesn't mind the same WME matching more than one part of a rule.
+This looks computationally prohibitive, but we're just back to the old problem faced by the Rete algorithm \cite{Forgy1982}, and there are many new (differentiable) ways to solve this problem. % The result is Fig. \ref{fig:logic-Transformer-string-diagram}.
+An initial version of our system can solve TicTacToe quite efficiently.  Further testing confirmed that it can solve natural-language tasks such as bAbI \cite{Weston2015} and TinyStories \cite{Eldan2023} with 10x fewer parameters than traditional Transformers (Fig \ref{fig:experiments}L).  We attribute this efficiency to the logic structure inherent in the Logic Transformer neural network.
 
 \begin{figure}
 	\hspace{-0.5cm}
@@ -567,18 +572,10 @@ The next step would be to match WMEs (Working Memory Elements, ie, propositions)
 	\caption{String-diagram of the Logic Transformer.}
 	\label{fig:logic-Transformer-string-diagram}
 \end{figure}
-\begin{figure}
-	\includegraphics[scale=.25]{parameter_efficiency_comparison.png}
-	\quad
-	\raisebox{0.6cm}{
-	\includegraphics[scale=.32]{Halmos-nutshell.png}}
-	\caption{(Left) Compression ratio, Logic Transformer vs traditional. (Right) Paul Halmos' lifting of propositional logic to predicate logic.}
-	\label{fig:experiments}
-\end{figure}
 
 \subsection{Source code and experiments}
 
-We went through 3 stages of experiments:
+We went through 3 stages of experiments. All source code is under Creative Commons Zero-1.0 license and can be accessed from: \\ \texttt{http://github.com/Cybernetic1/}\{insert name\}
 \begin{center}
 \begin{tabular}{|c|p{8cm}|p{4cm}|}
 	\hline
@@ -590,25 +587,41 @@ We went through 3 stages of experiments:
 	\hline
 \end{tabular}
 \end{center}
-All source code is under Creative Commons Zero-1.0 license and can be accessed from \texttt{http://github.com/Cybernetic1/}\{insert name\}.  Readers can use Copilot to ask questions about our code and even contribute new material; Feel free to contact the author for assistance.
+Readers can use Copilot to ask questions about our code and even contribute new material. The repository is experimental code and contains >80 Markdown documents, mostly generated by Copilot, which may be difficult for beginners to navigate. Feel free to contact the author for assistance.
+
+\begin{figure}
+	\hspace{-0.2cm}
+	\includegraphics[scale=.25]{parameter_efficiency_comparison.png}
+	\quad
+	\raisebox{0.6cm}{
+		\includegraphics[scale=.32]{Halmos-nutshell.png}}
+	\caption{(Left) Compression ratio, Logic Transformer vs traditional. (Right) Paul Halmos' lifting of propositional logic to predicate logic.}
+	\label{fig:experiments} \label{fig:Halmos-nutshell}
+\end{figure}
 
 \subsection{On the algebraic structure of logic and string diagrams}
 
-A natural question arises whether it is possible to simplify the string diagram (Fig. \ref{fig:logic-Transformer-string-diagram}) to make it computationally more efficient.  Some prior research has been done in this direction. The diagrams in equation (\ref{eqn:attention-string-diagrams}) are \textbf{Functor String Diagrams} as described in \cite{Abbott2024}. They have the advantage of keeping track of dimensions of tensors as well as preserving equivariant structure -- these seem to be all we need.
+A natural question arises whether it is possible to simplify the string diagram (Fig. \ref{fig:logic-Transformer-string-diagram}) to make it computationally more efficient.  Some prior research has been done in this direction. The diagrams in equation (\ref{eqn:attention-string-diagrams}) are \textbf{Functor String Diagrams} as described in \cite{Abbott2024}. They have the advantage of keeping track of dimensions of tensors as well as preserving equivariant structure -- these seem to be all we need for implementing symbolic logic.
 
-The modern approach to describing the structure of logic is via categorical logic \cite{Jacobs1999} \cite{Lambek1986}, where logic structure is encapsulated as a CCC (Cartesian closed category) or topos.  This approach has the Curry-Howard correspondence \cite{Sorensen2006} at its core.  A parallel approach is based on relation algebra and leads to the notion of allegories.
+Let's digress a little into what we mean by ``logic structure.''  The modern approach is via categorical logic \cite{Jacobs1999} \cite{Lambek1986}, where logic structure is encapsulated as CCCs (\textbf{Cartesian closed categories}) or as \textbf{topoi} \cite{Goldblatt1984}.  The categorical approach has Curry-Howard correspondence \cite{Sorensen2006} at its core.  A parallel approach is based on relation algebra and leads to the notion of \textbf{allegories} \cite{Freyd1990}; it is inter-translatable with categorical logic.  Paul Halmos developed an early idea of algebraic logic based on lifting propositional logic to predicate logic via a morphism that preserves Boolean algebraic structure, as illustrated in Fig. \ref{fig:Halmos-nutshell}R. This idea is later developed into the notion of \textbf{hyperdoctrines} by Lawvere.
+
+In the study of neural-symbolic integration, a central concern is the equivariant property $A \wedge B = B \wedge A$, which we believe is also a key feature of Self-Attention \cite{Vaswani2017} and thus Transformers.  The categorical way to capture permutation invariance is by \textbf{symmetric monoidal categories} (SMCs), which has the visual language of \textbf{string diagrams}.  \textbf{Compact closed} SMCs have dual objects and cup $\cup$ and cap $\cap$ morphisms. These allows to deal with operations such as tensor contraction (eg. dot product) -- required by the Attention mechanism.  We can \textbf{re-write} such string diagrams while preserving their symmetric / algebraic properties, eg \cite{Bonchi2022}. This sounds like a very exciting research direction, though unfortunately because the space of continuous functions has uncountable basis, the completeness of such rewriting cannot be guaranteed. What we have is equational completeness in the sense of $ \llbracket D_1 \rrbracket = \llbracket D_2 \rrbracket \Rightarrow D_1 \stackrel{*}{\leftrightarrow} D_2 $.
+
+There is a path from SMCs $\rightarrow$ compact closed SMCs $\rightarrow$ Cartesian closed categories $\rightarrow$ topos, with increasingly more structure. We know how to construct neural networks in SMCs so the challenge is how to construct neural networks in toposes.  There is some research in this direction \cite{Spivak2014} \cite{Gavranovic2024}, which may shed light to our approach.
+
+The string diagram in Fig. \ref{fig:logic-Transformer-string-diagram} is of an older style, as in \cite{Khatri2024}.  The model is impractical as it assumed the naive Cartesian product $X^n$ of Working Memory.  We are working with some modified version of it, but the claims of this paper remains basically truthful.
 
 %but the rule (\ref{eqn:differentiable-variable-slots}) neglected the fact that the variables in each $\mathsf{father}$ atom must match their variables with each other (a situation well-known in classical logic-based AI).  This means we have to programmatically feed all \textit{pairs} of Working-Memory atoms, ie. the Cartesian product $A \times A$, into the above string diagram.  That makes it different from the Transformer which takes its input in plain form.  The reason why Transformer can do that is because it has many \textbf{layers}, and the matching of $A \times A$ can be achieved over these layers.
 
 % except that softmax does not commute with inner products, so they are not exactly equivalent, but qualitatively similar.
-Indeed, neural \textbf{associative memory} (such as Transformer, which are shown to be equivalent to Hopfield Networks \cite{Ramsauer2021}) may be a far superior form of ``logic'' than traditional, formal symbolic logic.  Consider the logic example:
-\begin{equation}
-	\mbox{loves}(X, Y) \wedge \neg \mbox{loves}(Y,X) \rightarrow \frownie(X)
-\end{equation}
-but we immediately sense that the human brain does not work like that.  It is more like: the thought of unrequited love fires a massive number of neural activations which all point to the conclusion that this is an unhappy experience.  The Transformer's associative memory does exactly that.
+% Indeed, neural \textbf{associative memory} (such as Transformer, which are shown to be equivalent to Hopfield Networks \cite{Ramsauer2021}) may be a far superior form of ``logic'' than traditional, formal symbolic logic.  Consider the logic example:
+%\begin{equation}
+%	\mbox{loves}(X, Y) \wedge \neg \mbox{loves}(Y,X) \rightarrow \frownie(X)
+%\end{equation}
+%but we immediately sense that the human brain does not work like that.  It is more like: the thought of unrequited love fires a massive number of neural activations which all point to the conclusion that this is an unhappy experience.  The Transformer's associative memory does exactly that.
 
 % Let's pause for a moment to reflect that we tried to substitute variables (some kind of syntactic manipulation), and ended up with something like Self-Attention.
-Also recall that Self-Attention originated as a kind of \textbf{content-addressable memory} for Neural Turing Machines, invented for its differentiability.  In retrospect, it is also a very efficient implementation of associative memory.  If we want to improve the Transformer, we should first understand it as an associative memory.
+% Also recall that Self-Attention originated as a kind of \textbf{content-addressable memory} for Neural Turing Machines, invented for its differentiability.  In retrospect, it is also a very efficient implementation of associative memory.  If we want to improve the Transformer, we should first understand it as an associative memory.
 
 % \textbf{Relation algebra}.  The matching of terms containing variables is combinatorially expensive - a fact well-known to an older generation of AI researchers.  To get around this problem, perhaps we can turn to relation algebra which has long established as a variable-free formalism.  For example, ``father's father is grandfather'' ($F; F = G$) is very close to human thinking.  I propose to extend beyond relations in the traditional sense, to a graphical knowledge representation where edges are ``linguistic'' relations.  For example: ``love and not loved back implies heartbreak'' ($\heartsuit ; \overline{\heartsuit}^\top \vdash \frownie$) does not mean that $\frownie$ is a relation with oneself; rather it is an inferred attribute, or unary predicate.  This example shows that the general rule about heartbreaks is independent of the individuals involved, as it should, and it has a form highly similar to relation algebra.  Inspired by Tarski's view that relation algebra can express most of mathematics\cite{Maddux2006} \cite{Schmidt2010}, we have grounds to believe that rewriting rules matching over linguistic graphs with labeled edges is plausibly powerful enough to express all of human intelligence.
 
@@ -627,7 +640,7 @@ Also recall that Self-Attention originated as a kind of \textbf{content-addressa
 % I guess I am not the only one among AGI researchers who is jealous of the success of the Self-Attention Transformer BERT-GPT lineage tradition.  Many like us suspect that Transformers are unnecessarily ``bulky'', meaning that they can be reduced or simplified.  But how?
 
 % Functor $\mathsf{F}: \mathcal{C} \rightarrow \mathcal{D}$.
-From a \textbf{functorial} point of view (eg.\cite{Crescenzi2024} \cite{Abbott2024} \cite{Khatri2024}), one can find a functor that transforms a category $\mathcal{C}$ of KR structure and rewrite morphisms into another category $\mathcal{D}$ with different KR structure and rewrite morphisms.  It might just happen that one type of rewrite morphisms are computationally less costly than the other type, and so we have discovered a better, more efficient AGI system.  But this maneuver seems not so useful in light of the fact that Transformer / Self Attention is a distributive associative memory that may not care too much about its input representation.
+% From a \textbf{functorial} point of view (eg.\cite{Crescenzi2024} \cite{Abbott2024} \cite{Khatri2024}), one can find a functor that transforms a category $\mathcal{C}$ of KR structure and rewrite morphisms into another category $\mathcal{D}$ with different KR structure and rewrite morphisms.  It might just happen that one type of rewrite morphisms are computationally less costly than the other type, and so we have discovered a better, more efficient AGI system.  But this maneuver seems not so useful in light of the fact that Transformer / Self Attention is a distributive associative memory that may not care too much about its input representation.
 
 % String diagrams allow us to visually compare architectures, such as Self-Attention with my differentiable Logic Transformer.  These diagrams can be ``morphed'' by rewriting rules.  One research team proposed universal approximators as an equivalence class of architectures under rewriting, but such a class is too permissive and pretty useless.  We want a more refined view of architectures such that we can distinguish which ones are more \textbf{learning-efficient} -- the key question in AGI development.
 
@@ -639,34 +652,32 @@ From a \textbf{functorial} point of view (eg.\cite{Crescenzi2024} \cite{Abbott20
 
 \section{Additional Features and Enhancements}
 
-If the reader is familiar with classical logic-based AI (or the ``neo-classical'' OpenCog or OpenNARS), and if you understand our main innovation, the Logic Transformer, as a differentiable ``rules-base,'' then you would have no problem seeing many natural developments that follow from it.  If we were to explain them in detail, this paper would blow up to book-length.  Instead we just list some new features briefly:
-\begin{center}
-	\small
-	\hspace*{-1.5cm}
-\begin{tabular}{|p{2.5cm}|p{12cm}|}
+If the reader is familiar with classical logic-based AI (or the ``neo-classical'' OpenCog or OpenNARS), and if you understand our main innovation, the Logic Transformer, as a differentiable ``rules-base,'' then you would have no problem seeing many natural developments that follow from it.  If we were to explain them in detail, this paper would blow up to book-length.  Instead we just list some new features briefly: \\
+\hspace*{-1.5cm}
+\small
+\begin{longtable}{|p{2.5cm}|p{10cm}|}
 	\hline \textbf{Vector\newline quantization\newline (VQ) of\newline propositions} & Seems to be a nice trick, introduced by Copilot without the author's permission.  It is a well-known problem in RL that the action space is often too large to be computationally tractable; in the AGI case that action space is the space of all possible / imaginable propositions.  Copilot claims that they can be compressed into 8K propositions using a VQ code book.  When asked, it explains that it is not 8K distinct propositions, but propositional patterns (see doc \#61).  Examples like this make us suspect that Copilot is already capable of developing AGI with just a modicum of human guidance. \\
 
 	\hline \textbf{Hybrid\newline architecture\newline with symbolic\newline logic engine} & As our differentiable logic rules become cleanly separable entities, the neural network can easily co-operate with a traditional symbolic inference engine. With a layer of adaptation, it can work with OpenCog/NARS.  What advantages will it bring?  One example is the ability to quickly incorporate new knowledge into the thinking process. For example, when told that for an Abelian group, $a \cdot b = b \cdot a$, an LLM first places this fact into Working Memory (ie. the prompt), and this may cause the algebraic rule to be applied to new inputs, but this happens through an opaque process, known as long-range dependency, in traditional Transformers. With a symbolic logic engine, the fact $a \cdot b = b \cdot a$ can be directly translated into a logic rule and be immediately applicable. \\
 
+	\hline \textbf{Representation\newline of Working\newline Memory} & One of the key design choices of an AGI how to represent Working Memory.  OpenCog proposes a hypergraph structure. We explored this issue at length with Copilot and Qwen, particularly on trees because Chomsky revealed them to be a universal underlying structure of natural language. We looked at continuous representations of trees, whose algebraic structure is captured by \textbf{F-algebras}. Even so, faithfulness is very hard to guarantee in finite dimensional space. Many differentiable tree-rewriting techniques are complicated to implement.  We concluded that it is probably more efficient to use propositional logic rules for rewriting a graph-based Working Memory. \\
+
 	\hline \textbf{neo-Davidsonian grammar} & A logical form in linguistics, based on events. For example loves(John,Mary) would be loves($e$) $\wedge$ Agent($e$,John) $\wedge$ Patient($e$,Mary) where $e$ is an event. This technique was also suggested by Copilot and adopted by the author. \\
 
-	\hline \textbf{Representation\newline of Working\newline Memory (WM)} & One of the key design choices of an AGI is its representation of WM.  OpenCog proposes a hypergraph structure. We explored this issue at length with Copilot. \\
+	\hline \textbf{Reflection} & Refers to inference traces being made into inspectable objects fed into Working Memory. This allows an AI agent to examine its own thought processes. Some researchers regard this a core feature of ``consciousness.'' \\
 
-	\hline \textbf{Reflection} & \\
+	% \hline \textbf{Reification} & \\
 
-	\hline \textbf{Reification} & \\
-
-	\hline \textbf{HOL} & \\
+	\hline \textbf{HOL} & Higher-Order Logic is needed to learn highly abstract rules that may achieve better compression. \\
 
 	\hline \textbf{Horn form} & A logic rule of the form $X \wedge Y \wedge W \wedge ... \rightarrow Z$.  Sort of a relic from the past, it makes the implementation of classical symbolic engines easier, eg. PROLOG. Some discussions with Copilot suggest that it is no longer needed; a rule can have multiple heads. \\
 
 	\hline
-\end{tabular}
-\end{center}
+\end{longtable}
 
-\section{Conclusion}
+% \section{Conclusion}
 
-We proposed a simple AGI architecture that looks promising.  If the Transformer cannot be improved much further, we should perhaps accept the current design and proceed to the ``engineering'' phase of AGI development.
+% We proposed a simple AGI architecture that looks promising.  If the Transformer cannot be improved much further, we should perhaps accept the current design and proceed to the ``engineering'' phase of AGI development.
 
 \printbibliography
 
