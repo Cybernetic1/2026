@@ -1,0 +1,80 @@
+Date: Tue, 26 May 2026 23:16:05 +0200
+From: AGI-26 <agi26@easychair.org>
+To: King-Yin Yan <generic.intelligence@gmail.com>
+Subject: AGI-26 notification for paper 141
+Sender: agi26@easychair.org
+
+We regret to inform you that your submission was not selected for presentation at AGI-26 from 27-30 July 2026 at San Francisco State University nor for publication in the conference proceedings.
+This year saw 167 submissions of which 44 were accepted, resulting in a record-low acceptance rate of 26.3%
+We highly value your interest and research and hope to consider your works in future AGI conferences.
+Feel free to reach out with any questions you may have.
+
+SUBMISSION: 141
+TITLE: Introducing Logic Transformer
+
+----------------------- REVIEW 1 ---------------------
+
+SUBMISSION: 141
+TITLE: Introducing Logic Transformer
+
+----------- Overall evaluation -----------
+SCORE: -2 (reject)
+----- TEXT:
+The paper combines ideas from symbolic AI, category theory, neural-symbolic integration, and reinforcement learning. It presents conceptual motivations, sketches of the proposed architecture, and qualitative claims regarding experiments on TicTacToe, bAbI, and TinyStories tasks.
+
+The paper presents imaginative and potentially promising ideas in neural-symbolic reasoning, but in its current form it is speculative, lacks rigorous experimental validation, and provides insufficient methodological detail. The author often makes strong claims such as: "we claim that this is a key innovation that solves the AGI problem", but the claim is unsupported by evidence. No rigorous demonstrations of general intelligence, reasoning scalability, transfer learning, autonomous planning, or open-ended cognition are provided. The experiments described are minimal and insufficient to justify such conclusions.
+
+The manuscript has significant presentation issues: it contains a number of notions without proper definitions. For instance, what is "cylindrification factor"?
+
+To sum, while the Logic Transformer presents an interesting theoretical fusion of categorical logic and neural attention, the current manuscript is not ready for publication.
+
+
+----------------------- REVIEW 2 ---------------------
+
+SUBMISSION: 141
+TITLE: Introducing Logic Transformer
+
+----------- Overall evaluation -----------
+SCORE: -1 (weak reject)
+----- TEXT:
+Overall, I think this paper presents an interesting and partially understandable idea that could be close to publishable, but it still requires substantial clarification, additional technical detail, and text cleanup. The writing is fairly accessible, and the proposed Logic Transformer architecture is relevant to current AI research, especially neural-symbolic integration. However, several key ideas are introduced too briefly, and the experimental claims are not yet supported with enough concrete evidence.
+
+The paper would be much stronger if it included detailed experimental results, such as accuracy numbers, training curves, parameter counts, comparisons with standard Transformer baselines, and results from the Tic-Tac-Toe, bAbI, and TinyStories tasks. These would help readers evaluate whether the claimed 10x parameter reduction is robust and meaningful.
+
+I would be interested in seeing a revised version. However, the current submission does not provide enough technical detail or experimental evidence to support its central claims, especially the claims about compression, logical reasoning, and AGI. The contribution is promising but currently too under-specified and insufficiently validated for acceptance.
+
+Pros:
++ The idea of a Logic Transformer is interesting and relevant to AGI research. Transformers are central to modern AI, but frontier models often do not explicitly encode logical structure, which may contribute to their difficulties with systematic reasoning and logical consistency.
++ The paper proposes a potentially useful neural-symbolic architecture, combining differentiable learning with symbolic operations such as rule matching, substitution, and unification.
++ The claimed result that Logic Transformer can solve tasks such as Tic-Tac-Toe, bAbI, and TinyStories with 10x fewer parameters than traditional Transformers is intriguing and, if supported, would be a valuable contribution.
+
+Cons / Needed Improvements:
++ Although the paper claims experimental success, the concrete results are not shown in sufficient detail. The paper should include direct comparisons, numerical results, graphs, training setup, evaluation metrics, baseline descriptions, etc. OR to reference a separate paper that can verify these experimental claims. Figure 5 does show some accuracy and parameter numbers, but it is not clear which experiment it refers to.
++ The claim that Logic Transformer "solves AGI" is too strong. The paper should instead make a more specific and defensible claim, such as that Logic Transformer may improve parameter efficiency, interpretability, or logical reasoning in certain structured tasks.
++ The cylindrification factor is introduced as a key innovation, but it is only briefly explained. Since this appears to be central to the architecture, the paper should define it more formally and provide examples of how it works.
++ Some technical points need more explanation. For example, when the paper refers to the "old problem faced by the Rete algorithm" (pg. 3) it should briefly explain what that problem is and why it is relevant to matching Working Memory Elements to rule arguments.
++ Section 1 should be expanded to better explain how Logic Transformer fits into the two proposed AI architectures: LLM-as-world-model and LLM-as-thinking-model. The relationship between RL, working memory, prompts, and Logic Transformer should be made much clearer.
++ Some parts of the paper still contain errors or placeholders, such as the URL http://github.com/Cybernetic1/{insert name}. These should be corrected before submission.
++ Some sentences are too informal or anecdotal for a conference paper. For example, the sentence "This is the point when we stopped and submitted our last paper, which was rejected" is not necessary for the technical argument. The paper should instead directly explain the technical issue, how WMEs are matched to rule arguments and how the proposed architecture addresses the computational difficulty.
+
+
+----------------------- REVIEW 3 ---------------------
+
+SUBMISSION: 141
+TITLE: Introducing Logic Transformer
+
+----------- Overall evaluation -----------
+SCORE: -3 (strong reject)
+----- TEXT:
+This paper claims that a "Logic Transformer" — a differentiable neural network performing classical symbolic logic inference — "solves the AGI problem." The evidence provided does not support this claim, and an examination of the accompanying code repository reveals that the presented results are actively misleading.
+
+The paper presents results on bAbI and TinyStories, implying the Logic Transformer succeeds on these benchmarks. However, the repository's own debugging log (https://github.com/Cybernetic1/AGI-experiments/blob/main/results.txt) openly admits the DLN fails on both:
+
+- TinyStories: "Stuck at 50% (random chance)"
+- bAbI: classified as a failure case
+
+The only genuine success is TicTacToe (100% win rate, 4,680 params), which is far too trivial to support an AGI-solving claim.
+
+The "10x fewer parameters" claim is based on comparing against transformer baselines that achieve catastrophically poor performance: 8.9%, 18.2%, and 0.0% test accuracy on bAbI; with the largest model having 0% score. (https://github.com/Cybernetic1/AGI-experiments/blob/main/transformer-babi-results.txt)
+
+Overall the paper presents very bold claims but consists almost entirely of elegant theoretical derivations, while essentially stating no empirical results, which had to be inferred by browsing through the linked (large) code repository. There are more issues that could be discussed but in this reviewer’s opinion presented issues are enough to warrant rejection.

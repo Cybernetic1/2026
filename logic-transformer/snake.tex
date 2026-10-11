@@ -1,0 +1,75 @@
+% 保存为 snake_diagrams.tex，使用 pdflatex / xelatex 编译即可
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{amsmath, amssymb}
+\usetikzlibrary{calc, positioning}
+
+\begin{document}
+\begin{tikzpicture}[
+  >=stealth,
+  wire/.style={thick, black},
+  label/.style={font=\small, text=black},
+  dot/.style={circle, fill=black, inner sep=1.2pt},
+  scale=1.1
+]
+
+% ================= 1. Cup 与 Cap =================
+\begin{scope}[shift={(0,0)}]
+  \node[label, anchor=south] at (0,2.6) {Cup $\eta_A : I \to A^* \otimes A$};
+  % U形开口向上
+  \draw[wire] (0,2) .. controls (-0.6,1.2) and (-1.5,1) .. (-1.5,0) node[left] {$A^*$};
+  \draw[wire] (0,2) .. controls (0.6,1.2) and (1.5,1) .. (1.5,0) node[right] {$A$};
+  \node[dot] at (0,2) {};
+\end{scope}
+
+\begin{scope}[shift={(5,0)}]
+  \node[label, anchor=north] at (0,-0.6) {Cap $\epsilon_A : A \otimes A^* \to I$};
+  ∩形开口向下
+  \draw[wire] (-1.5,2) node[left] {$A$} .. controls (-1.5,1) and (-0.6,1.2) .. (0,2);
+  \draw[wire] (1.5,2) node[right] {$A^*$} .. controls (1.5,1) and (0.6,1.2) .. (0,2);
+  \node[dot] at (0,2) {};
+\end{scope}
+
+% ================= 2. Snake 方程（Yanking） =================
+\begin{scope}[shift={(0,-6)}]
+  \node[label, anchor=south] at (0,3.2) {左 Snake：$(\mathrm{id}_A \otimes \epsilon_A) \circ (\eta_A \otimes \mathrm{id}_A) \cong \mathrm{id}_A$};
+
+  % 弯曲版本
+  \draw[wire] (0,2.8) -- (0,1.6);
+  \draw[wire] (0,1.6) .. controls (0,0.8) and (1.2,0.8) .. (1.2,0)
+    node[right, pos=0.5] {$A^*$};
+  \draw[wire] (1.2,0) .. controls (1.2,-0.8) and (0,-0.8) .. (0,-1.6);
+  \draw[wire] (0,-1.6) -- (0,-2.8);
+  \node[label] at (0,3.0) {$A$};
+  \node[label] at (0,-3.0) {$A$};
+
+  \node[label, font=\Large] at (2.8,0) {$\cong$};
+
+  % 拉直版本
+  \draw[wire] (6,2.8) -- (6,-2.8);
+  \node[label] at (6,3.0) {$A$};
+  \node[label] at (6,-3.0) {$A$};
+  \node[label, anchor=south] at (6,3.2) {恒等 $\mathrm{id}_A$};
+\end{scope}
+
+% ================= 3. 右 Snake 方程 =================
+\begin{scope}[shift={(0,-14)}]
+  \node[label, anchor=south] at (0,3.2) {右 Snake：$(\epsilon_A \otimes \mathrm{id}_{A^*}) \circ (\mathrm{id}_{A^*} \otimes \eta_A) \cong \mathrm{id}_{A^*}$};
+
+  \draw[wire] (0,2.8) -- (0,1.6);
+  \draw[wire] (0,1.6) .. controls (0,0.8) and (-1.2,0.8) .. (-1.2,0)
+    node[left, pos=0.5] {$A$};
+  \draw[wire] (-1.2,0) .. controls (-1.2,-0.8) and (0,-0.8) .. (0,-1.6);
+  \draw[wire] (0,-1.6) -- (0,-2.8);
+  \node[label] at (0,3.0) {$A^*$};
+  \node[label] at (0,-3.0) {$A^*$};
+
+  \node[label, font=\Large] at (2.8,0) {$\cong$};
+
+  \draw[wire] (6,2.8) -- (6,-2.8);
+  \node[label] at (6,3.0) {$A^*$};
+  \node[label] at (6,-3.0) {$A^*$};
+  \node[label, anchor=south] at (6,3.2) {恒等 $\mathrm{id}_{A^*}$};
+\end{scope}
+
+\end{tikzpicture}
+\end{document}

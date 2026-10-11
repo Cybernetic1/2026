@@ -1,0 +1,93 @@
+\documentclass[runningheads]{llncs}
+
+\usepackage[T1]{fontenc}
+% T1 fonts will be used to generate the final print and online PDFs,
+% so please use T1 fonts in your manuscript whenever possible.
+% Other font encondings may result in incorrect characters.
+%
+\usepackage{graphicx}
+% Used for displaying a sample figure. If possible, figure files should
+% be included in EPS format.
+%
+% If you use the hyperref package, please uncomment the following two lines
+% to display URLs in blue roman font according to Springer's eBook style:
+%\usepackage{color}
+%\renewcommand\UrlFont{\color{blue}\rmfamily}
+
+\usepackage{amsmath}
+\usepackage{amssymb}    % for \rightsquigarrow
+\usepackage{wasysym}	% for frown face
+% \usepackage{mathrsfs} % for \mathscr
+\usepackage{eucal}	 	% for better-looking \mathcal
+\usepackage{stmaryrd}
+\usepackage{bm}
+\usepackage{mathtools}		% to extend length of double harpoon arrows
+\usepackage{tikz,ifthen}
+\usetikzlibrary{arrows,positioning,decorations.markings,shapes.multipart,shapes.geometric,shapes.arrows,tikzmark,calc}
+\usepackage{tikz-cd}
+\usepackage{sidecap}
+\usepackage{adjustbox}
+\usepackage{hyperref}
+
+\begin{document}
+
+\begin{figure}
+\label{fig:types-AB}
+\begin{tikzpicture}[node distance=-2pt,every path/.style={thick},decoration={
+	markings,mark=at position 0.53 with {\arrow{>}}}]
+
+\node[rectangle, align=left, text depth=5pt, anchor=west, text width=100pt] at (-1.5, 2.25) {\textbf{(Type L)} LLM as \\ language model};
+
+\node[draw,thick,dashed,rectangle, minimum height=66pt, rounded corners=10pt, minimum width=50pt, label=right:RL] (RL) at (2, 0) {};
+\node (state) [draw,rectangle split,rectangle split parts=2,minimum width=3em] at (0, 0) {$x_{t}$ \nodepart{two} $x_{t+1}$};
+
+\node[] (eye) at (-1.5, 0.27) {\includegraphics{eye-symbol.png}};
+\node[] (mouth) at (-1.5, -0.27) {\includegraphics{mouth-symbol.png}};
+
+\node[] (speech1) at (2,1.8) {\includegraphics[scale=0.5]{speech-symbol.png}};
+\node[] (speech2) at (2,-1.8) {\includegraphics[scale=0.5]{speech-gray.png}};
+
+\node (compress1) [draw,trapezium,trapezium angle=-70, fill=gray!20, minimum height=25pt, inner xsep=-6.5pt, anchor=south] at (2,0) {\footnotesize NL${}^{-1}$};
+\node (compress2) [draw,trapezium,trapezium angle=70, fill=gray!20, minimum height=25pt, inner xsep=-2pt, below=0pt of compress1] {\footnotesize NL};
+
+% \node (stateA) [rectangle,minimum width=35pt, minimum height=5pt, above=0pt of compress1] {};
+% \draw(stateA.south west) -- (stateA.north west) -- (stateA.north east) -- (stateA.south east);
+% \node (stateB) [rectangle,minimum width=35pt, minimum height=5pt, below=0pt of compress2] {};
+% \draw(stateB.north west) -- (stateB.south west) -- (stateB.south east) -- (stateB.north east);
+
+% \draw[dashed] (stateA.east) to ([yshift=-5pt]state.north west);
+% \draw[dashed] (stateB.east) to ([yshift=5pt]state.south west);
+
+\draw[-left to, shorten >= 3pt] (eye) -- ([yshift=7pt]state.west);
+\draw[-left to, shorten <= 3pt] ([yshift=-7pt]state.west) -- (mouth);
+
+\draw[postaction={decorate},rounded corners=12pt] (state.north) to ([yshift=27pt]state.north) to ([yshift=14pt]compress1.north) to (compress1.north);
+\draw[postaction={decorate},rounded corners=12pt] (compress2.south) to ([yshift=-14pt]compress2.south) to ([yshift=-27pt]state.south) to (state.south);
+\end{tikzpicture}
+\qquad \quad
+\begin{tikzpicture}[node distance=-2pt,every path/.style={thick},decoration={
+	markings,mark=at position 0.53 with {\arrow{>}}}]
+
+\node[align=left, anchor=west, text width=100pt] at (-1, 2) {\textbf{(Type W)} LLM as \\ world model};
+
+\node[draw,thick,circle,fill=gray!20] (RL) at (1.5, 0) {RL};
+\node (state) [draw,rectangle split,rectangle split parts=2,minimum width=3em] at (0, 0) {$x_{t}$ \nodepart{two} $x_{t+1}$};
+
+\node[] (world1) at (-2,1.7) {\includegraphics[scale=0.5]{world-symbol.png}};
+\node[] (world2) at (-2,-1.7) {\includegraphics[scale=0.5]{world-gray.png}};
+
+\node (compress1) [draw,trapezium,trapezium angle=-70, fill=gray!20, minimum height=35pt, inner xsep=1pt, anchor=south] at (-2,0) {};
+\node (compress2) [draw,trapezium,trapezium angle=70, fill=gray!20, minimum height=35pt, inner xsep=1pt, below=of compress1] {};
+
+\node (stateA) [draw,trapezium,trapezium angle=-70, fill=white, minimum height=6pt, inner xsep=4pt, above=-22pt of compress1] {?};
+\node (stateB) [draw,trapezium,trapezium angle=70, fill=white, minimum height=6pt, inner xsep=4pt, below=-22pt of compress2] {?};
+
+\draw[dashed] (stateA.east) to [edge label=?] ([yshift=-5pt]state.north west);
+\draw[dashed] (stateB.east) to [edge label'=?] ([yshift=5pt]state.south west);
+
+\draw[postaction={decorate},rounded corners=12pt] (state.north) to ([yshift=14pt]state.north) to ([yshift=15pt]RL.north) to (RL.north);
+\draw[postaction={decorate},rounded corners=12pt] (RL.south) to ([yshift=-15pt]RL.south) to ([yshift=-14pt]state.south) to (state.south);
+\end{tikzpicture}
+\end{figure}
+
+\end{document}

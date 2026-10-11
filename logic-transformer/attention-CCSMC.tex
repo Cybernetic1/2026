@@ -1,0 +1,54 @@
+\documentclass[tikz,border=12pt]{standalone}
+\usepackage{amsmath, amssymb}
+\usetikzlibrary{calc, positioning, arrows, arrows.meta, decorations.pathreplacing}
+
+\usepackage[CJKspace]{xeCJK}
+\setCJKmainfont[Path={/usr/share/fonts/truetype/Alibaba PuHuiTi/}, BoldFont=Alibaba_PuHuiTi_Regular.ttf, ItalicFont=ukai.ttc]{Alibaba_PuHuiTi_Light.ttf}
+
+\begin{document}
+\begin{tikzpicture}[
+  >=Stealth,
+  wire/.style={thick, black},
+  cap/.style={thick, red},
+  box/.style={draw, minimum width=1.6cm, minimum height=0.7cm, fill=blue!10, align=center},
+  label/.style={font=\small, text=black},
+  note/.style={font=\footnotesize, text=gray!70, align=center},
+  scale=1.05
+]
+
+\node[label, font=\bfseries] at (0,5.0) {注意力得分计算的严格 String Diagram};
+
+% Q 的两根因子线：序列维 N_Q 与特征维 d_Q
+\draw[wire] (-1.5,4.5) node[above] {$N_Q$} -- (-1.5,1.8);
+\draw[wire] (-0.8,4.5) node[above] {$d_Q$} -- (-0.8,2.5);
+
+% K 的两根因子线：特征维 d_K 与序列维 N_K
+\draw[wire] (0.8,4.5) node[above] {$d_K$} -- (0.8,2.5);
+\draw[wire] (1.5,4.5) node[above] {$N_K$} -- (1.5,1.8);
+
+% 特征维 d 的 Cap：严格闭合至 I，无输出线
+\draw[cap=round] (-0.8,2.5) .. controls (-0.8,1.5) and (0.8,1.5) .. (0.8,2.5);
+\node[fill=white, inner sep=2pt, label, text=red] at (0,1.3) {$\epsilon_d : d \otimes d^* \to I$};
+\draw[dashed, red] (0,1.3) circle (0.35);
+
+% 序列维 N 保持开放，组合成 N⊗N 注意力分数
+\draw[thick, dashed, blue!60] (-1.8,0.9) rectangle (1.8,1.6);
+\node[label, text=blue!70!black] at (0,0.5) {$N_Q \otimes N_K \cong N \otimes N$ (注意力分数)};
+\draw[wire] (-1.5,1.8) -- (-1.5,1.1);
+\draw[wire] (1.5,1.8) -- (1.5,1.1);
+
+% Softmax 节点
+\node[box] (softmax) at (0, -0.2) {softmax};
+\draw[wire] (-1.5,1.1) -- (softmax.north west);
+\draw[wire] (1.5,1.1) -- (softmax.north east);
+\draw[wire] (softmax.south) -- ++(0,-0.6) node[midway, right, font=\small] {归一化权重 $A$};
+
+% 右侧注释
+\node[note, text width=4cm] at (-4.5, 2.0) {
+  ✅ Cap 仅作用于特征维 $d$，严格输出 $I$（无导线）\\
+  ✅ 进入 softmax 的线来自未收缩的序列维 $N$\\
+  ✅ 范畴语义：$(\mathrm{id}_{N} \otimes \epsilon_d \otimes \mathrm{id}_{N}) \circ (\dots)$
+};
+
+\end{tikzpicture}
+\end{document}
